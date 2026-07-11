@@ -15,7 +15,8 @@ import {
   ChevronDown,
   Activity,
   Menu,
-  X
+  X,
+  Users,
 } from 'lucide-react';
 
 // Hook
@@ -32,32 +33,39 @@ import { EmergencyAlertCenter } from '../components/EmergencyAlertCenter';
 import { SystemActivityFeed } from '../components/SystemActivityFeed';
 import { QuickActionPanel } from '../components/QuickActionPanel';
 import { ToastContainer } from '../components/ToastContainer';
+import { CitizenManagement } from '../components/CitizenManagement';
+import { getStoredAuth } from '@/features/auth/services/mockAuth';
 
 export const AdminDashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const state = useAdminState();
 
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'map' | 'reports' | 'investigations' | 'officers' | 'analytics' | 'alerts' | 'logs' | 'settings'>('dashboard');
+  const auth = getStoredAuth();
+  const adminUser = auth?.user;
+  const adminName = adminUser ? `${adminUser.firstName} ${adminUser.lastName}`.trim() : 'Admin';
+  const adminInitial = adminName.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2);
+
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'map' | 'reports' | 'investigations' | 'officers' | 'citizens' | 'analytics' | 'alerts' | 'logs' | 'settings'>('dashboard');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    navigate('/login');
+    localStorage.removeItem('cw_auth');
+    navigate('/admin/login', { replace: true });
   };
 
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'map', label: 'Live Crime Map', icon: Map },
-    { id: 'reports', label: 'All Reports', icon: FileText },
+    { id: 'map', label: 'Crime Map', icon: Map },
+    { id: 'reports', label: 'Reports', icon: FileText },
     { id: 'investigations', label: 'Investigations', icon: Activity },
     { id: 'officers', label: 'Officers', icon: Shield },
+    { id: 'citizens', label: 'Citizens', icon: Users },
     { id: 'analytics', label: 'Analytics', icon: BarChart2 },
     { id: 'alerts', label: 'Emergency Alerts', icon: ShieldAlert },
     { id: 'logs', label: 'Operations Feed', icon: Activity },
-    { id: 'settings', label: 'System Settings', icon: Settings },
+    { id: 'settings', label: 'Settings', icon: Settings },
   ] as const;
 
   return (
@@ -171,9 +179,9 @@ export const AdminDashboardPage: React.FC = () => {
                 className="flex items-center gap-2 bg-slate-900/50 border border-slate-800 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-slate-100 transition-colors"
               >
                 <div className="w-6 h-6 rounded-full bg-indigo-950 border border-indigo-500/30 flex items-center justify-center font-bold text-indigo-400 text-[10px]">
-                  AD
+                  {adminInitial}
                 </div>
-                <span className="hidden sm:inline">Admin Desk</span>
+                <span className="hidden sm:inline">{adminName}</span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
               </button>
 
@@ -285,6 +293,10 @@ export const AdminDashboardPage: React.FC = () => {
 
               {activeTab === 'officers' && (
                 <OfficerManagement officers={state.officers} onAddOfficer={state.addOfficer} />
+              )}
+
+              {activeTab === 'citizens' && (
+                <CitizenManagement />
               )}
 
               {activeTab === 'analytics' && (

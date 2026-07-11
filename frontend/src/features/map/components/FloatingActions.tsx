@@ -31,10 +31,13 @@ export const FloatingActions = ({ onRefresh, onLocate, loading }: FloatingAction
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
         onClick={onLocate}
-        className="flex items-center gap-2 px-4 py-3 glass hover:bg-white/10 text-white font-semibold rounded-xl shadow-lg transition-all duration-200 hover:scale-105"
+        disabled={loading}
+        className="flex items-center gap-2 px-4 py-3 glass hover:bg-white/10 text-white font-semibold rounded-xl shadow-lg transition-all duration-200 hover:scale-105 disabled:opacity-60"
       >
-        <Navigation className="w-5 h-5 text-blue-400" />
-        <span className="hidden sm:inline text-sm">Locate Me</span>
+        <Navigation className={`w-5 h-5 text-blue-400 ${loading ? 'animate-pulse' : ''}`} />
+        <span className="hidden sm:inline text-sm">
+          {loading ? 'Locating...' : 'Locate Me'}
+        </span>
       </motion.button>
 
       {/* Refresh */}
@@ -43,7 +46,8 @@ export const FloatingActions = ({ onRefresh, onLocate, loading }: FloatingAction
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
         onClick={onRefresh}
-        className="flex items-center gap-2 px-4 py-3 glass hover:bg-white/10 text-white font-semibold rounded-xl shadow-lg transition-all duration-200 hover:scale-105"
+        disabled={loading}
+        className="flex items-center gap-2 px-4 py-3 glass hover:bg-white/10 text-white font-semibold rounded-xl shadow-lg transition-all duration-200 hover:scale-105 disabled:opacity-60"
       >
         <RefreshCw className={`w-5 h-5 text-emerald-400 ${loading ? 'animate-spin' : ''}`} />
         <span className="hidden sm:inline text-sm">Refresh</span>

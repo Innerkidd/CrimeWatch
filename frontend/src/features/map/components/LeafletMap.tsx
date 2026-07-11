@@ -1,10 +1,10 @@
-import { useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap, ZoomControl } from 'react-leaflet';
+import { useEffect, useRef, useCallback } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, Circle, useMap, ZoomControl } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { FileText, Clock, MapPin, AlertTriangle, ChevronRight } from 'lucide-react';
+import { FileText, Clock, MapPin, AlertTriangle, ChevronRight, Navigation } from 'lucide-react';
 import { type CrimeReport, crimeTypeLabels, crimeTypeColors, severityColors } from '../data/mockData';
 
 // Fix Leaflet default icon issue
@@ -52,48 +52,83 @@ const createCrimeIcon = (_type: string, severity: string) => {
   });
 };
 
+// Blue "You are Here" marker
 const userIcon = L.divIcon({
-  className: 'user-marker',
+  className: 'user-location-marker',
   html: `
-    <div style="position: relative; width: 20px; height: 20px;">
+    <div style="position: relative; width: 24px; height: 24px;">
       <div style="
         position: absolute;
         inset: 0;
         background: #3B82F6;
         border-radius: 50%;
         border: 3px solid white;
-        box-shadow: 0 2px 8px rgba(59,130,246,0.5);
+        box-shadow: 0 2px 12px rgba(59,130,246,0.6);
       "></div>
       <div style="
         position: absolute;
-        inset: -8px;
+        inset: -10px;
         border: 2px solid rgba(59,130,246,0.3);
         border-radius: 50%;
-        animation: pulse-ring 2s infinite;
+        animation: user-pulse 2s ease-out infinite;
+      "></div>
+      <div style="
+        position: absolute;
+        inset: -5px;
+        border: 1.5px solid rgba(59,130,246,0.2);
+        border-radius: 50%;
+        animation: user-pulse 2s ease-out 0.5s infinite;
       "></div>
     </div>
     <style>
-      @keyframes pulse-ring {
-        0% { transform: scale(1); opacity: 1; }
-        100% { transform: scale(2); opacity: 0; }
+      @keyframes user-pulse {
+        0% { transform: scale(1); opacity: 0.8; }
+        100% { transform: scale(2.5); opacity: 0; }
       }
     </style>
   `,
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
+  iconSize: [24, 24],
+  iconAnchor: [12, 12],
 });
 
 interface MapUpdaterProps {
   center: [number, number];
   zoom: number;
+  fly?: boolean;
 }
 
-const MapUpdater = ({ center, zoom }: MapUpdaterProps) => {
+const MapUpdater = ({ center, zoom, fly = false }: MapUpdaterProps) => {
   const map = useMap();
   useEffect(() => {
-    map.setView(center, zoom);
-  }, [center, zoom, map]);
+    if (fly) {
+      map.flyTo(center, zoom, { duration: 1.5 });
+    } else {
+      map.setView(center, zoom);
+    }
+  }, [center, zoom, map, fly]);
   return null;
+};
+
+interface LocateButtonProps {
+  onLocate: () => void;
+}
+
+const LocateButton = ({ onLocate }: LocateButtonProps) => {
+  const map = useMap();
+  const handleClick = useCallback(() => {
+    onLocate();
+    map.locate({ setView: false });
+  }, [onLocate, map]);
+
+  return (
+    <button
+      onClick={handleClick}
+      className="absolute bottom-20 right-4 z-[1000] w-10 h-10 rounded-xl bg-white/90 backdrop-blur-sm border border-white/20 shadow-lg flex items-center justify-center text-blue-600 hover:bg-blue-50 hover:scale-110 transition-all"
+      title="Locate Me"
+    >
+      <Navigation className="w-5 h-5" />
+    </button>
+  );
 };
 
 interface PopupContentProps {
@@ -153,9 +188,12 @@ interface LeafletMapProps {
   center: [number, number];
   zoom: number;
   onCenterChange: (center: [number, number]) => void;
+  onLocate?: () => void;
+  hasRealLocation?: boolean;
+  accuracy?: number;
 }
 
-export const LeafletMap = ({ reports, center, zoom, onCenterChange }: LeafletMapProps) => {
+export const LeafletMap = ({ reports, center, zoom, onCenterChange, onLocate, hasRealLocation = false, accuracy }: LeafletMapProps) => {
   const mapRef = useRef<L.Map | null>(null);
 
   return (
@@ -177,12 +215,35 @@ export const LeafletMap = ({ reports, center, zoom, onCenterChange }: LeafletMap
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <ZoomControl position="bottomright" />
-        <MapUpdater center={center} zoom={zoom} />
+        <MapUpdater center={center} zoom={zoom} fly={hasRealLocation} />
 
-        {/* User Location */}
+        {/* Accuracy circle when GPS is active */}
+        {hasRealLocation && accuracy && (
+          <Circle
+            center={center}
+            radius={accuracy}
+            pathOptions={{
+              color: '#3B82F6',
+              fillColor: '#3B82F6',
+              fillOpacity: 0.08,
+              weight: 1,
+              opacity: 0.3,
+            }}
+          />
+        )}
+
+        {/* User Location - Blue "You are Here" Marker */}
         <Marker position={center} icon={userIcon}>
           <Popup>
-            <div className="text-xs font-semibold text-gray-900">Your Location</div>
+            <div className="text-xs font-semibold text-gray-900 flex items-center gap-1.5">
+              <Navigation className="w-3 h-3 text-blue-600" />
+              Your Location
+            </div>
+            {hasRealLocation && (
+              <div className="text-[10px] text-gray-500 mt-1">
+                GPS accuracy: {accuracy ? `${Math.round(accuracy)}m` : 'N/A'}
+              </div>
+            )}
           </Popup>
         </Marker>
 
@@ -201,6 +262,9 @@ export const LeafletMap = ({ reports, center, zoom, onCenterChange }: LeafletMap
             </Popup>
           </Marker>
         ))}
+
+        {/* Locate Me button */}
+        {onLocate && <LocateButton onLocate={onLocate} />}
       </MapContainer>
     </motion.div>
   );

@@ -18,5 +18,6 @@ export * from './components/EmergencyAlertCenter';
 export * from './components/SystemActivityFeed';
 export * from './components/QuickActionPanel';
 export * from './components/ToastContainer';
+export * from './components/CitizenManagement';
 
 export default {};

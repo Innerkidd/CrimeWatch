@@ -1,11 +1,40 @@
-import axiosInstance from './axios';
+import axios, { type AxiosError, type InternalAxiosRequestConfig } from 'axios';
+import { API_BASE } from '../constants/api';
 
-export const api = {
-  get: <T>(url: string, config = {}) => axiosInstance.get<T>(url, config).then(res => res.data),
-  post: <T>(url: string, data?: any, config = {}) => axiosInstance.post<T>(url, data, config).then(res => res.data),
-  put: <T>(url: string, data?: any, config = {}) => axiosInstance.put<T>(url, data, config).then(res => res.data),
-  delete: <T>(url: string, config = {}) => axiosInstance.delete<T>(url, config).then(res => res.data),
-  patch: <T>(url: string, data?: any, config = {}) => axiosInstance.patch<T>(url, data, config).then(res => res.data),
-};
+const api = axios.create({
+  baseURL: API_BASE,
+  timeout: 30000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Request interceptor — attach JWT
+api.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    const token = localStorage.getItem('cw_token');
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// Response interceptor — handle errors globally
+api.interceptors.response.use(
+  (response) => response,
+  (error: AxiosError<{ message?: string }>) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('cw_token');
+      localStorage.removeItem('cw_user');
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
+    }
+    const message = error.response?.data?.message || error.message || 'An unexpected error occurred';
+    return Promise.reject(new Error(message));
+  }
+);
 
 export default api;

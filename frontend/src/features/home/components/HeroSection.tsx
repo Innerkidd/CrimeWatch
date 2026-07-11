@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { AlertTriangle, MapPin, Shield, Radio, ArrowRight } from 'lucide-react';
+import { AlertTriangle, MapPin, Shield, Radio, ArrowRight, Users, BadgeCheck, Settings } from 'lucide-react';
 
 const floatingPins = [
   { x: '15%', y: '30%', delay: 0, color: 'text-red-500' },
@@ -119,28 +119,55 @@ export const HeroSection = () => {
             neighborhoods.
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons — Three Login Portals */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.6 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
+            {/* Citizen Login */}
             <Link
-              to="/reports"
-              className="group relative inline-flex items-center gap-2 px-8 py-4 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-red-600/25 hover:shadow-red-500/40 hover:scale-105"
+              to="/login"
+              className="group relative inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-blue-600/25 hover:shadow-blue-500/40 hover:scale-105"
             >
-              <AlertTriangle className="w-5 h-5" />
-              Report Crime
+              <Users className="w-5 h-5" />
+              Citizen Login
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
 
+            {/* Police Login */}
+            <Link
+              to="/police/login"
+              className="group inline-flex items-center gap-2 px-8 py-4 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-amber-600/25 hover:shadow-amber-500/40 hover:scale-105"
+            >
+              <BadgeCheck className="w-5 h-5" />
+              Police Portal
+            </Link>
+
+            {/* Admin Login */}
+            <Link
+              to="/admin/login"
+              className="group inline-flex items-center gap-2 px-8 py-4 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-red-600/25 hover:shadow-red-500/40 hover:scale-105"
+            >
+              <Settings className="w-5 h-5" />
+              Admin Portal
+            </Link>
+          </motion.div>
+
+          {/* Quick Map Link */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+            className="mt-6"
+          >
             <Link
               to="/map"
-              className="group inline-flex items-center gap-2 px-8 py-4 glass hover:bg-white/10 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors"
             >
-              <MapPin className="w-5 h-5 text-blue-400" />
-              View Live Map
+              <MapPin className="w-4 h-4" />
+              View Live Crime Map (Public)
             </Link>
           </motion.div>
         </motion.div>

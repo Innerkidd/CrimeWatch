@@ -14,19 +14,21 @@ import {
   Search,
   Menu,
   X,
-  TrendingUp,
-  Settings,
 } from 'lucide-react';
 
-const navItems = [
+const citizenNavItems = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },
   { icon: Map, label: 'Interactive Map', href: '/map' },
   { icon: FileText, label: 'Report Crime', href: '/reports' },
   { icon: FileText, label: 'My Reports', href: '/my-reports' },
   { icon: Bell, label: 'Notifications', href: '/notifications' },
-  { icon: TrendingUp, label: 'Crime Trends', href: '/dashboard' },
-  { icon: User, label: 'Profile', href: '/profile' },
-  { icon: Settings, label: 'Settings', href: '/dashboard' },
+];
+
+const policeNavItems = [
+  { icon: LayoutDashboard, label: 'Dashboard', href: '/police/dashboard' },
+  { icon: Map, label: 'Interactive Map', href: '/police/map' },
+  { icon: FileText, label: 'My Reports', href: '/police/reports' },
+  { icon: Bell, label: 'Notifications', href: '/police/notifications' },
 ];
 
 export const MainLayout = () => {
@@ -42,14 +44,25 @@ export const MainLayout = () => {
     setMobileOpen(false);
   }, [location.pathname]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    navigate('/login');
-  };
+  const authData = localStorage.getItem('cw_auth');
+  const parsed = authData ? JSON.parse(authData) : null;
+  const user = parsed?.user || {};
+  const userRole: string = user.role || 'citizen';
+  const navItems = userRole === 'police' ? policeNavItems : citizenNavItems;
 
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
-  const userName = user.name || user.email?.split('@')[0] || 'User';
+  const handleLogout = () => {
+    localStorage.removeItem('cw_auth');
+    if (userRole === 'police') {
+      navigate('/police/login', { replace: true });
+    } else if (userRole === 'admin') {
+      navigate('/admin/login', { replace: true });
+    } else {
+      navigate('/login', { replace: true });
+    }
+  };
+  const userName = user.firstName
+    ? `${user.firstName} ${user.lastName || ''}`.trim()
+    : user.email?.split('@')[0] || 'User';
   const userInitial = userName.charAt(0).toUpperCase();
 
   return (
@@ -177,7 +190,7 @@ export const MainLayout = () => {
           <div className="flex items-center gap-3">
             {/* Notification Bell */}
             <button
-              onClick={() => navigate('/notifications')}
+              onClick={() => navigate(userRole === 'police' ? '/police/notifications' : '/notifications')}
               className="relative p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors"
               aria-label="Notifications"
             >
@@ -220,7 +233,7 @@ export const MainLayout = () => {
                     </div>
                     <div className="p-1.5">
                       <button
-                        onClick={() => { navigate('/profile'); setProfileOpen(false); }}
+                        onClick={() => { navigate(userRole === 'police' ? '/police/profile' : '/profile'); setProfileOpen(false); }}
                         className="w-full flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
                       >
                         <User className="w-4 h-4" />
