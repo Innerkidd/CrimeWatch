@@ -110,20 +110,20 @@ export const NotificationsPage = () => {
 
   const handleMarkAllRead = useCallback(() => {
     setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
-    addToast('success', 'All notifications marked as read.');
+    addToast('success', 'ALL CHANNELS SYNCHRONIZED AS READ.');
   }, [addToast]);
 
   const handleClearAll = useCallback(() => {
     setNotifications([]);
-    addToast('success', 'All notifications cleared.');
+    addToast('success', 'ALL SIGNAL NOTIFICATIONS PURGED.');
   }, [addToast]);
 
   const handleSettings = useCallback(() => {
-    addToast('warning', 'Notification settings coming soon.');
+    addToast('warning', 'NOTIFICATION PREFS COMING SOON.');
   }, [addToast]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-tech text-xs uppercase text-left">
       <ToastContainer toasts={toasts} onRemove={removeToast} />
 
       {/* Page Header */}
@@ -133,12 +133,12 @@ export const NotificationsPage = () => {
         className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
       >
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
-            <Bell className="w-7 h-7 text-blue-400" />
-            Notifications
+          <h1 className="text-2xl font-black text-white flex items-center gap-3 font-orbitron tracking-wider">
+            <Bell className="w-7 h-7 text-cyber-cyan glow-cyan animate-pulse" />
+            EMERGENCY_BROADCAST_RECEIVER
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
-            Stay updated with crime alerts, investigation progress, and community safety announcements.
+          <p className="text-xs text-slate-400 mt-1">
+            // Active threat telemetry alerts and dispatch updates.
           </p>
         </div>
 
@@ -146,10 +146,10 @@ export const NotificationsPage = () => {
         <motion.div
           animate={{ opacity: [1, 0.5, 1] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 self-start"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-none bg-cyber-green/10 border border-cyber-green/30 self-start text-cyber-green glow-green"
         >
-          <Zap className="w-3.5 h-3.5 text-emerald-400" />
-          <span className="text-xs font-semibold text-emerald-400">Live Updates</span>
+          <Zap className="w-3.5 h-3.5 text-cyber-green" />
+          <span className="font-bold tracking-wider">FEED_ACTIVE_SYNC</span>
         </motion.div>
       </motion.div>
 
@@ -201,18 +201,22 @@ export const NotificationsPage = () => {
       )}
 
       {/* Investigation Updates Section */}
-      <div>
+      <div className="hud-panel relative transition-all border border-cyber-cyan/15 bg-cyber-void/80 p-4">
+        {/* HUD Brackets Corners */}
+        <div className="hud-corner-tr" />
+        <div className="hud-corner-bl" />
+
         <button
           onClick={() => setShowInvestigations(!showInvestigations)}
-          className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-white/[0.03] transition-colors"
+          className="w-full flex items-center justify-between p-1 hover:bg-cyber-cyan/5 transition-colors font-orbitron font-bold tracking-wider text-cyber-cyan glow-cyan cursor-pointer uppercase"
         >
-          <span className="text-sm font-bold text-white flex items-center gap-2">
-            Investigation Updates ({mockInvestigationUpdates.length})
+          <span>
+            INVESTIGATION_UPDATES_LOG ({mockInvestigationUpdates.length})
           </span>
           {showInvestigations ? (
-            <ChevronUp className="w-4 h-4 text-slate-400" />
+            <ChevronUp className="w-4 h-4 text-cyber-cyan" />
           ) : (
-            <ChevronDown className="w-4 h-4 text-slate-400" />
+            <ChevronDown className="w-4 h-4 text-cyber-cyan" />
           )}
         </button>
         <AnimatePresence>
@@ -221,7 +225,7 @@ export const NotificationsPage = () => {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden"
+              className="overflow-hidden mt-3"
             >
               <InvestigationTimeline updates={mockInvestigationUpdates} />
             </motion.div>
@@ -230,18 +234,22 @@ export const NotificationsPage = () => {
       </div>
 
       {/* Community Announcements Section */}
-      <div>
+      <div className="hud-panel relative transition-all border border-cyber-cyan/15 bg-cyber-void/80 p-4">
+        {/* HUD Brackets Corners */}
+        <div className="hud-corner-tr" />
+        <div className="hud-corner-bl" />
+
         <button
           onClick={() => setShowAnnouncements(!showAnnouncements)}
-          className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-white/[0.03] transition-colors"
+          className="w-full flex items-center justify-between p-1 hover:bg-cyber-cyan/5 transition-colors font-orbitron font-bold tracking-wider text-cyber-cyan glow-cyan cursor-pointer uppercase"
         >
-          <span className="text-sm font-bold text-white flex items-center gap-2">
-            Community Announcements ({mockAnnouncements.length})
+          <span>
+            COMMUNITY_BROADCAST_INDEX ({mockAnnouncements.length})
           </span>
           {showAnnouncements ? (
-            <ChevronUp className="w-4 h-4 text-slate-400" />
+            <ChevronUp className="w-4 h-4 text-cyber-cyan" />
           ) : (
-            <ChevronDown className="w-4 h-4 text-slate-400" />
+            <ChevronDown className="w-4 h-4 text-cyber-cyan" />
           )}
         </button>
         <AnimatePresence>
@@ -250,7 +258,7 @@ export const NotificationsPage = () => {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden"
+              className="overflow-hidden mt-3"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
                 {mockAnnouncements.map((announcement, i) => (
