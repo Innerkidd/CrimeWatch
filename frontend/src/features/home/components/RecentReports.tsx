@@ -49,7 +49,7 @@ const statusStyles: Record<string, string> = {
 
 export const RecentReports = () => {
   return (
-    <section className="relative py-20 lg:py-28">
+    <section id="recent-logs" className="relative py-20 lg:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
