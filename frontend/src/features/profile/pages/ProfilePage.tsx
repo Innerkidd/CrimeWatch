@@ -1,0 +1,177 @@
+import { useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Settings } from 'lucide-react';
+import { ProfileOverview } from '../components/ProfileOverview';
+import { PersonalInfoForm } from '../components/PersonalInfoForm';
+import { SecuritySettings } from '../components/SecuritySettings';
+import { NotificationPreferences } from '../components/NotificationPreferences';
+import { PrivacySettings } from '../components/PrivacySettings';
+import { AppearanceSettings } from '../components/AppearanceSettings';
+import { EmergencyContacts } from '../components/EmergencyContacts';
+import { ActivityInfo } from '../components/ActivityInfo';
+import { SaveBar } from '../components/SaveBar';
+import { ConfirmationModal } from '../components/ConfirmationModal';
+import { ToastContainer, type ToastItem } from '@/shared/components/ui/Toast';
+import {
+  mockUserProfile,
+  mockNotificationPrefs,
+  mockPrivacyPrefs,
+  mockAppearancePrefs,
+  mockEmergencyContacts,
+  mockSessions,
+  mockLoginHistory,
+  type UserProfile,
+  type NotificationPrefs,
+  type PrivacyPrefs,
+  type AppearancePrefs,
+  type EmergencyContact,
+} from '../data/mockData';
+
+export const ProfilePage = () => {
+  const [user, setUser] = useState<UserProfile>(mockUserProfile);
+  const [notifPrefs, setNotifPrefs] = useState<NotificationPrefs>(mockNotificationPrefs);
+  const [privacyPrefs, setPrivacyPrefs] = useState<PrivacyPrefs>(mockPrivacyPrefs);
+  const [appearancePrefs, setAppearancePrefs] = useState<AppearancePrefs>(mockAppearancePrefs);
+  const [contacts, setContacts] = useState<EmergencyContact[]>(mockEmergencyContacts);
+  const [hasChanges, setHasChanges] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [toasts, setToasts] = useState<ToastItem[]>([]);
+  const [deleteAccountModal, setDeleteAccountModal] = useState(false);
+
+  const addToast = useCallback((type: ToastItem['type'], message: string) => {
+    const id = Date.now().toString();
+    setToasts((prev) => [...prev, { id, type, message }]);
+  }, []);
+
+  const removeToast = useCallback((id: string) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  }, []);
+
+  const markChanged = () => {
+    if (!hasChanges) setHasChanges(true);
+  };
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    // Simulate API call
+    await new Promise((r) => setTimeout(r, 1200));
+    setIsSaving(false);
+    setHasChanges(false);
+    addToast('success', 'Settings saved successfully.');
+  };
+
+  const handleCancel = () => {
+    setUser(mockUserProfile);
+    setNotifPrefs(mockNotificationPrefs);
+    setPrivacyPrefs(mockPrivacyPrefs);
+    setAppearancePrefs(mockAppearancePrefs);
+    setContacts(mockEmergencyContacts);
+    setHasChanges(false);
+  };
+
+  const handleReset = () => {
+    handleCancel();
+    addToast('warning', 'Settings reset to defaults.');
+  };
+
+  const handleDeleteAccount = () => {
+    setDeleteAccountModal(false);
+    addToast('success', 'Account deletion request submitted.');
+  };
+
+  const handleDownloadData = () => {
+    addToast('success', 'Your data export is being prepared.');
+  };
+
+  const handleLogoutAll = () => {
+    addToast('success', 'Logged out from all other devices.');
+  };
+
+  const handlePasswordChange = (data: { current: string; newPass: string }) => {
+    void data;
+    addToast('success', 'Password updated successfully.');
+  };
+
+  return (
+    <div className="space-y-6 pb-24">
+      <ToastContainer toasts={toasts} onRemove={removeToast} />
+      <ConfirmationModal
+        isOpen={deleteAccountModal}
+        title="Delete Account"
+        message="This action is irreversible. All your data, reports, and account information will be permanently deleted."
+        confirmLabel="Delete Account"
+        onConfirm={handleDeleteAccount}
+        onCancel={() => setDeleteAccountModal(false)}
+      />
+
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex items-center justify-between"
+      >
+        <div>
+          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+            <Settings className="w-7 h-7 text-blue-400" />
+            Profile & Settings
+          </h1>
+          <p className="text-sm text-slate-400 mt-1">
+            Manage your account, preferences, and security settings.
+          </p>
+        </div>
+      </motion.div>
+
+      {/* Profile Overview */}
+      <ProfileOverview user={user} onEditProfile={() => document.getElementById('personal-info')?.scrollIntoView({ behavior: 'smooth' })} />
+
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Left Column */}
+        <div className="space-y-6" id="personal-info">
+          <PersonalInfoForm
+            user={user}
+            onSave={(data) => {
+              setUser((prev) => ({ ...prev, ...data }));
+              markChanged();
+              addToast('success', 'Personal information updated.');
+            }}
+          />
+          <AppearanceSettings prefs={appearancePrefs} onChange={(p) => { setAppearancePrefs(p); markChanged(); }} />
+          <EmergencyContacts contacts={contacts} onChange={(c) => { setContacts(c); markChanged(); }} />
+        </div>
+
+        {/* Right Column */}
+        <div className="space-y-6">
+          <SecuritySettings
+            sessions={mockSessions}
+            onLogoutAll={handleLogoutAll}
+            onPasswordChange={handlePasswordChange}
+          />
+          <NotificationPreferences prefs={notifPrefs} onChange={(p) => { setNotifPrefs(p); markChanged(); }} />
+          <PrivacySettings
+            prefs={privacyPrefs}
+            onChange={(p) => { setPrivacyPrefs(p); markChanged(); }}
+            onDeleteAccount={() => setDeleteAccountModal(true)}
+            onDownloadData={handleDownloadData}
+          />
+          <ActivityInfo user={user} loginHistory={mockLoginHistory} />
+        </div>
+      </div>
+
+      {/* Floating Save Bar */}
+      <AnimatePresence>
+        {hasChanges && (
+          <SaveBar
+            hasChanges={hasChanges}
+            isSaving={isSaving}
+            onSave={handleSave}
+            onCancel={handleCancel}
+            onReset={handleReset}
+          />
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+export default ProfilePage;
