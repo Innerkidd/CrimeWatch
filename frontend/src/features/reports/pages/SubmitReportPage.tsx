@@ -147,17 +147,16 @@ export const SubmitReportPage = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="space-y-3"
+            className="space-y-3 text-left font-tech"
           >
-            <h1 className="text-2xl lg:text-3xl font-bold text-white">Report a Crime</h1>
-            <p className="text-slate-400">
-              Help keep your community safe by reporting incidents accurately.
+            <h1 className="text-2xl lg:text-3xl font-black text-white font-orbitron uppercase tracking-wider">INIT_CRIME_LOG_TRANSMISSION</h1>
+            <p className="text-xs text-slate-400">
+              // INPUT INCIDENT PARAMETERS TO BROADCAST SIGNAL TO DISPATCH NETWORK.
             </p>
-            <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20">
-              <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0" />
-              <p className="text-sm text-red-300">
-                If this is an emergency, immediately contact your local emergency services at{' '}
-                <span className="font-bold">100</span>.
+            <div className="flex items-center gap-3 px-4 py-3 rounded-none bg-cyber-pink/10 border border-cyber-pink/30 text-cyber-pink glow-pink">
+              <AlertTriangle className="w-5 h-5 text-cyber-pink flex-shrink-0 animate-pulse" />
+              <p className="text-xs leading-normal">
+                CRITICAL WARNING: IF ACTIVE THREAT IS ONGOING, TERMINATE WEB TRANSMISSION AND DIAL EMERGENCY SERVICES AT <span className="font-bold">100</span>.
               </p>
             </div>
           </motion.div>
@@ -167,26 +166,30 @@ export const SubmitReportPage = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="glass rounded-2xl px-6 py-4"
+            className="hud-panel px-6 py-4 relative border border-cyber-cyan/15 bg-cyber-void/80"
           >
-            <div className="flex items-center justify-between">
+            {/* HUD Brackets Corners */}
+            <div className="hud-corner-tr" />
+            <div className="hud-corner-bl" />
+
+            <div className="flex items-center justify-between font-tech text-xs uppercase tracking-wider relative z-10">
               {['Incident', 'Location', 'Evidence', 'Review'].map((label, i) => (
                 <div key={label} className="flex items-center gap-2">
                   <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
+                    className={`w-8 h-8 rounded-none flex items-center justify-center text-sm font-bold border transition-all ${
                       step > i + 1
-                        ? 'bg-emerald-500 text-white'
+                        ? 'bg-cyber-green text-cyber-void border-cyber-green glow-green'
                         : step === i + 1
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-white/5 text-slate-500'
+                        ? 'bg-cyber-cyan text-cyber-void border-cyber-cyan glow-cyan'
+                        : 'bg-cyber-void border-cyber-cyan/20 text-slate-500'
                     }`}
                   >
                     {step > i + 1 ? '✓' : i + 1}
                   </div>
-                  <span className={`text-sm font-medium hidden sm:block ${step === i + 1 ? 'text-white' : 'text-slate-500'}`}>
+                  <span className={`text-xs font-bold hidden sm:block ${step === i + 1 ? 'text-cyber-cyan glow-cyan' : 'text-slate-500'}`}>
                     {label}
                   </span>
-                  {i < 3 && <div className={`w-8 lg:w-16 h-0.5 mx-1 ${step > i + 1 ? 'bg-emerald-500' : 'bg-white/10'}`} />}
+                  {i < 3 && <div className={`w-8 lg:w-16 h-0.5 mx-1 ${step > i + 1 ? 'bg-cyber-green' : 'bg-cyber-cyan/15'}`} />}
                 </div>
               ))}
             </div>
@@ -199,27 +202,31 @@ export const SubmitReportPage = () => {
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="glass rounded-2xl p-6 space-y-5"
+                className="hud-panel p-6 space-y-5 border border-cyber-cyan/15 bg-cyber-void/80 relative"
               >
-                <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-blue-400" />
-                  Incident Information
+                {/* HUD Brackets Corners */}
+                <div className="hud-corner-tr" />
+                <div className="hud-corner-bl" />
+
+                <h2 className="text-sm font-bold font-orbitron text-white flex items-center gap-2 uppercase tracking-wider border-b border-cyber-cyan/15 pb-2 mb-2 relative z-10">
+                  <FileText className="w-5 h-5 text-cyber-cyan glow-cyan" />
+                  INCIDENT_INFORMATION_SCHEMA
                 </h2>
 
                 {/* Crime Type */}
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1.5">
-                    Crime Type <span className="text-red-400">*</span>
+                <div className="relative z-10 font-tech">
+                  <label className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">
+                    CRIME CLASSIFICATION <span className="text-cyber-pink">*</span>
                   </label>
                   <select
                     {...register('crimeType', { required: 'Crime type is required' })}
-                    className="w-full bg-navy-950/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                    className="w-full bg-cyber-void border border-cyber-cyan/25 rounded-none px-4 py-3 text-sm text-cyber-cyan outline-none focus:border-cyber-cyan/50 focus:ring-1 focus:ring-cyber-cyan/10 transition-all font-tech uppercase"
                   >
                     {crimeTypes.map((type) => (
-                      <option key={type} value={type}>{type}</option>
+                      <option key={type} value={type} className="bg-cyber-void text-cyber-cyan">{type}</option>
                     ))}
                   </select>
-                  {errors.crimeType && <p className="text-xs text-red-400 mt-1">{errors.crimeType.message}</p>}
+                  {errors.crimeType && <p className="text-xs text-cyber-pink mt-1">{errors.crimeType.message}</p>}
                 </div>
 
                 {/* Title */}
