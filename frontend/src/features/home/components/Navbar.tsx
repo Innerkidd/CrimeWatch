@@ -5,9 +5,9 @@ import { Shield, Menu, X } from 'lucide-react';
 
 const navLinks = [
   { label: 'Home', href: '/' },
-  { label: 'Interactive Map', href: '/map' },
-  { label: 'Report Crime', href: '/reports' },
-  { label: 'Crime Trends', href: '/dashboard' },
+  { label: 'Interactive Map', href: '/map', protected: true },
+  { label: 'Report Crime', href: '/reports', protected: true },
+  { label: 'Crime Trends', href: '/dashboard', protected: true },
   { label: 'About', href: '/#features' },
   { label: 'Contact', href: '/#footer' },
 ];
@@ -49,6 +49,19 @@ export const Navbar = () => {
     navigate('/');
   };
 
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('/#') && location.pathname === '/') {
+      e.preventDefault();
+      const id = href.substring(2);
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  const visibleLinks = navLinks.filter((link) => !link.protected || token);
+
   return (
     <motion.nav
       initial={{ y: -80 }}
@@ -76,10 +89,11 @@ export const Navbar = () => {
 
           {/* Desktop Links */}
           <div className="hidden lg:flex items-center gap-1 font-tech">
-            {navLinks.map((link) => (
+            {visibleLinks.map((link) => (
               <Link
                 key={link.label}
                 to={link.href}
+                onClick={(e) => handleLinkClick(e, link.href)}
                 className="px-3 py-2 text-sm tracking-wide text-slate-400 hover:text-cyber-cyan rounded hover:bg-cyber-cyan/5 transition-all duration-200"
               >
                 {link.label}
@@ -144,11 +158,14 @@ export const Navbar = () => {
             className="lg:hidden bg-cyber-void/95 backdrop-blur-xl border-t border-cyber-cyan/15"
           >
             <div className="px-2 pt-2 pb-4 space-y-1 font-tech">
-              {navLinks.map((link) => (
+              {visibleLinks.map((link) => (
                 <Link
                   key={link.label}
                   to={link.href}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    handleLinkClick(e, link.href);
+                  }}
                   className="block px-4 py-3 text-base text-slate-400 hover:text-cyber-cyan rounded hover:bg-cyber-cyan/5 transition-all duration-200"
                 >
                   {link.label}
