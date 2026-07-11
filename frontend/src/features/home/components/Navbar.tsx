@@ -4,10 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, Menu, X } from 'lucide-react';
 
 const navLinks = [
-  { label: 'Home', href: '/' },
   { label: 'Interactive Map', href: '/map', protected: true },
   { label: 'Report Crime', href: '/reports', protected: true },
   { label: 'Crime Trends', href: '/dashboard', protected: true },
+  { label: 'Operations Pipeline', href: '/#how-it-works' },
+  { label: 'Recent Logs', href: '/#recent-logs' },
   { label: 'About', href: '/#features' },
   { label: 'Contact', href: '/#footer' },
 ];
