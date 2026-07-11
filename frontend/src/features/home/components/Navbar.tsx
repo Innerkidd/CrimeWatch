@@ -60,14 +60,8 @@ export const Navbar = () => {
             ))}
           </div>
 
-          {/* Desktop Auth Buttons */}
-          <div className="hidden lg:flex items-center gap-3">
-            <Link
-              to="/login"
-              className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white rounded-lg hover:bg-white/5 transition-all duration-200"
-            >
-              Login
-            </Link>
+          {/* Desktop Auth Button */}
+          <div className="hidden lg:flex items-center">
             <Link
               to="/register"
               className="px-5 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-all duration-200 shadow-lg shadow-blue-600/25"
@@ -109,13 +103,6 @@ export const Navbar = () => {
                 </Link>
               ))}
               <div className="pt-4 border-t border-white/5 flex flex-col gap-2">
-                <Link
-                  to="/login"
-                  onClick={() => setMobileOpen(false)}
-                  className="px-4 py-3 text-sm font-medium text-slate-300 hover:text-white rounded-lg hover:bg-white/5 transition-all text-center"
-                >
-                  Login
-                </Link>
                 <Link
                   to="/register"
                   onClick={() => setMobileOpen(false)}
