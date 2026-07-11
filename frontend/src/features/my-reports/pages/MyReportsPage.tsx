@@ -111,7 +111,7 @@ export const MyReportsPage = () => {
   }, [deleteModal.reportId, selectedReport, addToast]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-left font-tech">
       <ToastContainer toasts={toasts} onRemove={removeToast} />
       <ConfirmationModal
         isOpen={deleteModal.open}
@@ -129,21 +129,21 @@ export const MyReportsPage = () => {
         className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"
       >
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
-            <FileText className="w-7 h-7 text-blue-400" />
-            My Reports
+          <h1 className="text-2xl font-black text-white flex items-center gap-3 font-orbitron tracking-wider">
+            <FileText className="w-7 h-7 text-cyber-cyan glow-cyan animate-pulse" />
+            SUBMITTED_SECTOR_LOGS
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
-            Track and manage all the crime reports you have submitted.
+          <p className="text-xs text-slate-400 mt-1">
+            // Telemetry and status of your node safety transmissions.
           </p>
         </div>
 
         <button
           onClick={() => navigate('/reports')}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-500/20 border border-blue-500/30 text-sm font-semibold text-blue-400 hover:bg-blue-500/30 transition-all self-start"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-cyber-cyan hover:bg-cyber-green text-xs font-bold text-cyber-void transition-all self-start rounded-none cursor-pointer chamfer-button shadow-[0_0_10px_rgba(0,212,255,0.25)] uppercase font-tech"
         >
-          <Plus className="w-4 h-4" />
-          Report New Crime
+          <Plus className="w-4 h-4 text-cyber-void" />
+          INIT_NEW_TRANSMISSION
         </button>
       </motion.div>
 
@@ -173,9 +173,9 @@ export const MyReportsPage = () => {
           />
 
           {/* Results count */}
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-500">
-              {filteredReports.length} report{filteredReports.length !== 1 ? 's' : ''} found
+          <div className="flex items-center justify-between font-tech text-[10px] tracking-wider uppercase text-slate-500">
+            <span>
+              // ACTIVE_RESULTS_COUNT: {filteredReports.length} SIGNAL_LOGS FOUND
             </span>
           </div>
 
@@ -193,66 +193,70 @@ export const MyReportsPage = () => {
         </div>
 
         {/* Right Column — Details & Activity */}
-        <div className="space-y-4">
+        <div className="space-y-4 text-left">
           {/* Selected Report Details */}
           {selectedReportData ? (
             <motion.div
               key={selectedReportData.id}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="glass rounded-2xl p-5 space-y-4"
+              className="hud-panel p-5 space-y-4 border border-cyber-cyan/15 bg-cyber-void/85 relative transition-all duration-300"
             >
-              <div className="flex items-start justify-between gap-3">
+              {/* HUD Brackets Corners */}
+              <div className="hud-corner-tr" />
+              <div className="hud-corner-bl" />
+
+              <div className="flex items-start justify-between gap-3 relative z-10 font-tech">
                 <div>
-                  <span className="text-xs font-mono font-semibold text-blue-400">{selectedReportData.id}</span>
-                  <h3 className="text-sm font-bold text-white mt-0.5">{selectedReportData.title}</h3>
+                  <span className="text-[10px] font-mono font-bold text-cyber-cyan block">// REPORT_ID: {selectedReportData.id}</span>
+                  <h3 className="text-sm font-bold text-white mt-0.5 uppercase tracking-wide font-orbitron">{selectedReportData.title}</h3>
                 </div>
                 <ReportActions
                   status={selectedReportData.status}
                   reportId={selectedReportData.id}
-                  onEdit={(id) => addToast('warning', `Edit mode for ${id}`)}
+                  onEdit={(id) => addToast('warning', `Edit mode initialized for ${id}`)}
                   onDelete={handleDelete}
                   onViewUpdates={(id) => addToast('success', `Opening updates for ${id}`)}
                   onAddEvidence={(id) => addToast('success', `Opening evidence upload for ${id}`)}
-                  onDownload={(id) => addToast('success', `Downloading PDF for ${id}`)}
-                  onFeedback={(id) => addToast('success', `Opening feedback for ${id}`)}
+                  onDownload={(id) => addToast('success', `Downloading PDF report for ${id}`)}
+                  onFeedback={(id) => addToast('success', `Opening feedback portal for ${id}`)}
                 />
               </div>
 
-              <div className="space-y-2 text-xs">
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Type</span>
-                  <span className="text-slate-300">{crimeTypeLabels[selectedReportData.crimeType]}</span>
+              <div className="space-y-2 text-xs relative z-10 font-tech uppercase tracking-wide">
+                <div className="flex justify-between border-b border-white/5 pb-1">
+                  <span className="text-slate-450">CLASSIFICATION</span>
+                  <span className="text-slate-200">{crimeTypeLabels[selectedReportData.crimeType]}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Location</span>
-                  <span className="text-slate-300 text-right max-w-[200px] truncate">{selectedReportData.location}</span>
+                <div className="flex justify-between border-b border-white/5 pb-1">
+                  <span className="text-slate-450">LOCATION</span>
+                  <span className="text-slate-200 text-right max-w-[200px] truncate">{selectedReportData.location}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Date</span>
-                  <span className="text-slate-300">{selectedReportData.dateReported}</span>
+                <div className="flex justify-between border-b border-white/5 pb-1">
+                  <span className="text-slate-450">TIMESTAMP</span>
+                  <span className="text-slate-200">{selectedReportData.dateReported}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Severity</span>
-                  <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full border ${severityConfig[selectedReportData.severity].bg} ${severityConfig[selectedReportData.severity].color}`}>
+                <div className="flex justify-between border-b border-white/5 pb-1">
+                  <span className="text-slate-450">SEVERITY</span>
+                  <span className={`px-2 py-0.5 text-[9px] font-bold border rounded-none ${severityConfig[selectedReportData.severity].bg} ${severityConfig[selectedReportData.severity].color}`}>
                     {severityConfig[selectedReportData.severity].label}
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Status</span>
-                  <span className={`px-2.5 py-0.5 text-[10px] font-bold rounded-full border ${statusConfig[selectedReportData.status].bg} ${statusConfig[selectedReportData.status].color}`}>
+                <div className="flex justify-between border-b border-white/5 pb-1">
+                  <span className="text-slate-450">SYS_STATUS</span>
+                  <span className={`px-2.5 py-0.5 text-[9px] font-bold border rounded-none ${statusConfig[selectedReportData.status].bg} ${statusConfig[selectedReportData.status].color}`}>
                     {statusConfig[selectedReportData.status].label}
                   </span>
                 </div>
                 {selectedReportData.assignedOfficer && (
-                  <div className="flex justify-between">
-                    <span className="text-slate-500">Officer</span>
-                    <span className="text-slate-300">{selectedReportData.assignedOfficer}</span>
+                  <div className="flex justify-between border-b border-white/5 pb-1">
+                    <span className="text-slate-450">OFFICER_ASSIGNED</span>
+                    <span className="text-slate-200">{selectedReportData.assignedOfficer}</span>
                   </div>
                 )}
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Evidence</span>
-                  <span className="text-slate-300">{selectedReportData.evidenceCount} file{selectedReportData.evidenceCount !== 1 ? 's' : ''}</span>
+                <div className="flex justify-between pb-1">
+                  <span className="text-slate-455">MEDIA_ATTACHMENTS</span>
+                  <span className="text-slate-200">{selectedReportData.evidenceCount} FILE{selectedReportData.evidenceCount !== 1 ? 'S' : ''}</span>
                 </div>
               </div>
 
@@ -262,12 +266,16 @@ export const MyReportsPage = () => {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="glass rounded-2xl p-8 text-center"
+              className="hud-panel p-8 text-center border border-cyber-cyan/10 bg-cyber-void/80 relative"
             >
-              <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mx-auto mb-3">
-                <List className="w-6 h-6 text-slate-500" />
+              {/* HUD Brackets Corners */}
+              <div className="hud-corner-tr" />
+              <div className="hud-corner-bl" />
+
+              <div className="w-12 h-12 rounded-none bg-cyber-cyan/5 border border-cyber-cyan/15 flex items-center justify-center mx-auto mb-3">
+                <List className="w-6 h-6 text-cyber-cyan glow-cyan" />
               </div>
-              <p className="text-sm text-slate-400">Select a report to view details</p>
+              <p className="text-xs text-slate-450 font-tech uppercase tracking-wider">// SELECT_LOG_TO_DECRYPT_DETAILS</p>
             </motion.div>
           )}
 
