@@ -33,32 +33,44 @@ const AnimatedCounter = ({ value, suffix = '' }: { value: number; suffix?: strin
 
 const stats = [
   {
-    icon: <FileText className="w-7 h-7" />,
+    icon: <FileText className="w-7 h-7 text-cyber-pink" />,
     label: 'Total Reports Today',
     value: 1284,
     suffix: '+',
-    color: 'from-blue-500 to-blue-600',
+    glowClass: 'glow-pink',
+    textClass: 'text-cyber-pink',
+    borderHoverClass: 'hover:border-cyber-pink/35 hover:shadow-[0_0_15px_rgba(255,0,119,0.12)]',
+    iconBg: 'bg-cyber-pink/10 border border-cyber-pink/20',
   },
   {
-    icon: <Search className="w-7 h-7" />,
+    icon: <Search className="w-7 h-7 text-cyber-yellow" />,
     label: 'Active Investigations',
     value: 342,
     suffix: '',
-    color: 'from-amber-500 to-orange-500',
+    glowClass: 'glow-yellow',
+    textClass: 'text-cyber-yellow',
+    borderHoverClass: 'hover:border-cyber-yellow/35 hover:shadow-[0_0_15px_rgba(255,179,0,0.12)]',
+    iconBg: 'bg-cyber-yellow/10 border border-cyber-yellow/20',
   },
   {
-    icon: <ShieldCheck className="w-7 h-7" />,
+    icon: <ShieldCheck className="w-7 h-7 text-cyber-green" />,
     label: 'Safe Areas',
     value: 89,
     suffix: '%',
-    color: 'from-emerald-500 to-green-500',
+    glowClass: 'glow-green',
+    textClass: 'text-cyber-green',
+    borderHoverClass: 'hover:border-cyber-green/35 hover:shadow-[0_0_15px_rgba(0,255,136,0.12)]',
+    iconBg: 'bg-cyber-green/10 border border-cyber-green/20',
   },
   {
-    icon: <BadgeCheck className="w-7 h-7" />,
+    icon: <BadgeCheck className="w-7 h-7 text-cyber-cyan" />,
     label: 'Verified Reports',
     value: 1053,
     suffix: '',
-    color: 'from-purple-500 to-violet-500',
+    glowClass: 'glow-cyan',
+    textClass: 'text-cyber-cyan',
+    borderHoverClass: 'hover:border-cyber-cyan/35 hover:shadow-[0_0_15px_rgba(0,212,255,0.12)]',
+    iconBg: 'bg-cyber-cyan/10 border border-cyber-cyan/20',
   },
 ];
 
@@ -74,12 +86,11 @@ export const LiveStats = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">
-            Live Crime <span className="gradient-text">Statistics</span>
+          <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-wider text-white mb-3 font-orbitron">
+            TACTICAL <span className="gradient-text glow-cyan">STATISTICS</span>
           </h2>
-          <p className="text-slate-400 max-w-lg mx-auto">
-            Real-time data from communities across the region, updated every
-            second.
+          <p className="text-slate-400 max-w-lg mx-auto font-tech tracking-wide uppercase text-xs">
+            // Real-time telemetry feed from local nodes, updated continuously.
           </p>
         </motion.div>
 
@@ -93,16 +104,20 @@ export const LiveStats = () => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.15, duration: 0.6 }}
             >
-              <div className="glass rounded-2xl p-6 text-center hover:bg-white/[0.06] transition-all duration-300 group">
+              <div className={`hud-panel p-6 text-center transition-all duration-300 group ${stat.borderHoverClass}`}>
+                {/* HUD Brackets Corners */}
+                <div className="hud-corner-tr" />
+                <div className="hud-corner-bl" />
+                
                 <div
-                  className={`inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br ${stat.color} mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                  className={`inline-flex items-center justify-center w-14 h-14 rounded-lg ${stat.iconBg} mb-4 group-hover:scale-105 transition-transform duration-300`}
                 >
                   {stat.icon}
                 </div>
-                <div className="text-3xl sm:text-4xl font-extrabold text-white mb-1">
+                <div className={`text-3.5xl sm:text-4xl font-extrabold font-tech mb-1 ${stat.textClass} ${stat.glowClass}`}>
                   <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                 </div>
-                <div className="text-sm font-medium text-slate-400">
+                <div className="text-xs font-bold uppercase tracking-wider text-slate-400 font-orbitron">
                   {stat.label}
                 </div>
               </div>

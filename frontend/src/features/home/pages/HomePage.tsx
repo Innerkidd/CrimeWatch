@@ -7,10 +7,23 @@ import { HowItWorks } from '@/features/home/components/HowItWorks';
 import { RecentReports } from '@/features/home/components/RecentReports';
 import { SafetyTips } from '@/features/home/components/SafetyTips';
 import { CTASection } from '@/features/home/components/CTASection';
+import { useEffect } from 'react';
 import { Footer } from '@/features/home/components/Footer';
 import PixelBlast from '@/shared/components/effects/PixelBlast';
 
 export const HomePage = () => {
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const id = hash.substring(1);
+      const element = document.getElementById(id);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 120);
+      }
+    }
+  }, []);
   return (
     <div className="relative min-h-screen text-slate-100 font-sans overflow-x-hidden">
       {/* Full-page PixelBlast background */}

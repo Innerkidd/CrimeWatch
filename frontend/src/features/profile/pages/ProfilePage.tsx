@@ -111,12 +111,12 @@ export const ProfilePage = () => {
         className="flex items-center justify-between"
       >
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
-            <Settings className="w-7 h-7 text-blue-400" />
-            Profile & Settings
+          <h1 className="text-2xl font-black text-white flex items-center gap-3 font-orbitron tracking-wider">
+            <Settings className="w-7 h-7 text-cyber-cyan glow-cyan animate-pulse" />
+            NODE_METADATA_CONFIGS
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
-            Manage your account, preferences, and security settings.
+          <p className="text-xs text-slate-400 mt-1">
+            // Manage account encryption credentials, UI preference parameters, and safety links.
           </p>
         </div>
       </motion.div>

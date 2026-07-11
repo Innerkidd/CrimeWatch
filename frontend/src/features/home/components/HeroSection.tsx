@@ -14,20 +14,20 @@ export const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
       {/* Radial Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-3xl" />
-      <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-red-500/5 rounded-full blur-3xl" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-cyber-cyan/5 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-cyber-pink/5 rounded-full blur-3xl" />
 
       {/* Floating Map Illustration */}
       <div className="absolute inset-0 hidden lg:block">
         {/* Grid Lines */}
         <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <line x1="20%" y1="0" x2="20%" y2="100%" stroke="rgba(99,102,241,0.08)" strokeWidth="1" />
-          <line x1="40%" y1="0" x2="40%" y2="100%" stroke="rgba(99,102,241,0.06)" strokeWidth="1" />
-          <line x1="60%" y1="0" x2="60%" y2="100%" stroke="rgba(99,102,241,0.08)" strokeWidth="1" />
-          <line x1="80%" y1="0" x2="80%" y2="100%" stroke="rgba(99,102,241,0.06)" strokeWidth="1" />
-          <line x1="0" y1="25%" x2="100%" y2="25%" stroke="rgba(99,102,241,0.06)" strokeWidth="1" />
-          <line x1="0" y1="50%" x2="100%" y2="50%" stroke="rgba(99,102,241,0.08)" strokeWidth="1" />
-          <line x1="0" y1="75%" x2="100%" y2="75%" stroke="rgba(99,102,241,0.06)" strokeWidth="1" />
+          <line x1="20%" y1="0" x2="20%" y2="100%" stroke="rgba(0,212,255,0.06)" strokeWidth="1" />
+          <line x1="40%" y1="0" x2="40%" y2="100%" stroke="rgba(0,212,255,0.04)" strokeWidth="1" />
+          <line x1="60%" y1="0" x2="60%" y2="100%" stroke="rgba(0,212,255,0.06)" strokeWidth="1" />
+          <line x1="80%" y1="0" x2="80%" y2="100%" stroke="rgba(0,212,255,0.04)" strokeWidth="1" />
+          <line x1="0" y1="25%" x2="100%" y2="25%" stroke="rgba(0,212,255,0.04)" strokeWidth="1" />
+          <line x1="0" y1="50%" x2="100%" y2="50%" stroke="rgba(0,212,255,0.06)" strokeWidth="1" />
+          <line x1="0" y1="75%" x2="100%" y2="75%" stroke="rgba(0,212,255,0.04)" strokeWidth="1" />
         </svg>
 
         {/* Floating Location Pins */}
@@ -44,7 +44,7 @@ export const HeroSection = () => {
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 2 + i * 0.3, repeat: Infinity, ease: 'easeInOut' }}
             >
-              <MapPin className={`w-7 h-7 ${pin.color} drop-shadow-lg`} />
+              <MapPin className={`w-7 h-7 ${pin.color.replace('red-550', 'cyber-pink').replace('emerald-500', 'cyber-green').replace('red-500', 'cyber-pink').replace('amber-500', 'cyber-yellow')} drop-shadow-[0_0_10px_rgba(0,212,255,0.4)]`} />
             </motion.div>
           </motion.div>
         ))}
@@ -53,10 +53,10 @@ export const HeroSection = () => {
         <motion.div
           className="absolute top-1/3 right-[15%]"
           initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 0.15, scale: 1 }}
+          animate={{ opacity: 0.08, scale: 1 }}
           transition={{ delay: 1.5, duration: 0.8 }}
         >
-          <Shield className="w-32 h-32 text-blue-500" />
+          <Shield className="w-32 h-32 text-cyber-cyan glow-cyan" />
         </motion.div>
 
         {/* Alert Pulse */}
@@ -67,9 +67,9 @@ export const HeroSection = () => {
           transition={{ delay: 2 }}
         >
           <div className="relative">
-            <Radio className="w-8 h-8 text-red-500" />
+            <Radio className="w-8 h-8 text-cyber-pink glow-pink" />
             <motion.div
-              className="absolute inset-0 border-2 border-red-500/30 rounded-full"
+              className="absolute inset-0 border-2 border-cyber-pink/30 rounded-full"
               animate={{ scale: [1, 2.5], opacity: [0.5, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
@@ -90,21 +90,21 @@ export const HeroSection = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8"
+            className="inline-flex items-center gap-2 px-4 py-2 border border-cyber-pink/30 bg-cyber-pink/15 text-cyber-pink font-tech uppercase tracking-wider glow-pink mb-8"
           >
-            <AlertTriangle className="w-4 h-4 text-red-400" />
-            <span className="text-sm font-medium text-slate-300">
-              Real-Time Crime Reporting Platform
+            <AlertTriangle className="w-4 h-4 text-cyber-pink glow-pink animate-pulse" />
+            <span>
+              SECURE_LINK: Real-Time Incident Reporting Node
             </span>
           </motion.div>
 
           {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-wider leading-[1.05] mb-6 font-orbitron">
             <span className="text-white">Report Crimes.</span>
             <br />
             <span className="text-white">Stay Informed.</span>
             <br />
-            <span className="gradient-text">Keep Your Community Safe.</span>
+            <span className="gradient-text glow-cyan">SECURE_COMMUNITY.</span>
           </h1>
 
           {/* Description */}
@@ -124,34 +124,34 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10"
           >
             {/* Citizen Login */}
             <Link
               to="/login"
-              className="group relative inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-blue-600/25 hover:shadow-blue-500/40 hover:scale-105"
+              className="group relative inline-flex items-center gap-2 px-6 py-3.5 bg-cyber-cyan hover:bg-cyber-green text-cyber-void font-bold font-tech tracking-wide rounded-none transition-all duration-300 shadow-[0_0_15px_rgba(0,212,255,0.25)] hover:shadow-[0_0_20px_rgba(0,255,136,0.35)] chamfer-button cursor-pointer"
             >
-              <Users className="w-5 h-5" />
-              Citizen Login
+              <Users className="w-4.5 h-4.5 text-cyber-void" />
+              CITIZEN_LOGIN
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
 
             {/* Police Login */}
             <Link
               to="/police/login"
-              className="group inline-flex items-center gap-2 px-8 py-4 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-amber-600/25 hover:shadow-amber-500/40 hover:scale-105"
+              className="group inline-flex items-center gap-2 px-6 py-3.5 bg-cyber-yellow/10 border border-cyber-yellow/35 hover:bg-cyber-yellow/20 text-cyber-yellow font-bold font-tech tracking-wide rounded-none transition-all duration-300 shadow-[0_0_10px_rgba(255,179,0,0.1)] hover:shadow-[0_0_15px_rgba(255,179,0,0.25)] chamfer-button cursor-pointer"
             >
-              <BadgeCheck className="w-5 h-5" />
-              Police Portal
+              <BadgeCheck className="w-4.5 h-4.5 text-cyber-yellow" />
+              POLICE_PORTAL
             </Link>
 
             {/* Admin Login */}
             <Link
               to="/admin/login"
-              className="group inline-flex items-center gap-2 px-8 py-4 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-red-600/25 hover:shadow-red-500/40 hover:scale-105"
+              className="group inline-flex items-center gap-2 px-6 py-3.5 bg-cyber-pink/10 border border-cyber-pink/35 hover:bg-cyber-pink/20 text-cyber-pink font-bold font-tech tracking-wide rounded-none transition-all duration-300 shadow-[0_0_10px_rgba(255,0,119,0.1)] hover:shadow-[0_0_15px_rgba(255,0,119,0.25)] chamfer-button cursor-pointer"
             >
-              <Settings className="w-5 h-5" />
-              Admin Portal
+              <Settings className="w-4.5 h-4.5 text-cyber-pink" />
+              ADMIN_PORTAL
             </Link>
           </motion.div>
 
@@ -160,21 +160,22 @@ export const HeroSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.6 }}
-            className="mt-6"
+            className="mt-8 relative z-10"
           >
             <Link
               to="/map"
-              className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors"
+              className="group inline-flex items-center gap-2 text-xs font-bold font-tech uppercase tracking-widest text-cyber-cyan hover:text-white transition-colors cursor-pointer"
             >
-              <MapPin className="w-4 h-4" />
-              View Live Crime Map (Public)
+              <MapPin className="w-4 h-4 text-cyber-cyan glow-cyan animate-pulse" />
+              ACCESS_TACTICAL_LIVE_MAP_SYS
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
         </motion.div>
       </div>
 
       {/* Bottom Gradient Fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-navy-950 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-cyber-void to-transparent pointer-events-none" />
     </section>
   );
 };

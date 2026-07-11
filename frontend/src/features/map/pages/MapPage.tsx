@@ -178,45 +178,44 @@ export const MapPage = () => {
   return (
     <div className="h-[calc(100vh-4rem)] flex flex-col -m-4 lg:-m-6">
       {/* Top Navbar */}
-      <div className="h-14 border-b border-white/5 bg-navy-950/80 backdrop-blur-xl px-4 flex items-center justify-between gap-3 flex-shrink-0 z-[1100]">
+      <div className="h-14 border-b border-cyber-cyan/15 bg-cyber-void/80 backdrop-blur px-4 flex items-center justify-between gap-3 flex-shrink-0 z-[1100]">
         <div className="flex items-center gap-3">
           <Link
             to="/dashboard"
-            className="flex items-center gap-1.5 text-sm text-slate-400 hover:text-white transition-colors"
+            className="flex items-center gap-1.5 text-xs font-bold text-cyber-cyan hover:text-white transition-colors uppercase tracking-wider font-tech"
           >
-            <ChevronLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">Dashboard</span>
+            <ChevronLeft className="w-4 h-4 text-cyber-cyan" />
+            <span className="hidden sm:inline">BACK_TO_DASHBOARD</span>
           </Link>
 
           <div className="hidden sm:flex items-center gap-2">
-            <Shield className="w-6 h-6 text-blue-500" />
-            <span className="font-bold text-sm tracking-wider">
-              <span className="text-white">CRIME</span>
-              <span className="text-blue-400">WATCH</span>
+            <Shield className="w-6 h-6 text-cyber-cyan glow-cyan animate-pulse" />
+            <span className="font-bold text-xs tracking-widest font-orbitron uppercase text-white">
+              CRIME<span className="text-cyber-cyan glow-cyan">WATCH // COORD_GRID</span>
             </span>
           </div>
         </div>
 
         {/* Search */}
-        <div className="flex-1 max-w-sm">
+        <div className="flex-1 max-w-sm font-tech">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-cyber-cyan glow-cyan" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search location..."
-              className="w-full bg-white/5 border border-white/10 rounded-lg pl-9 pr-4 py-1.5 text-sm text-slate-200 placeholder-slate-500 outline-none focus:border-blue-500/50 transition-all"
+              placeholder="CMD: SEARCH GEOLOCATION..."
+              className="w-full bg-cyber-void border border-cyber-cyan/25 rounded-none pl-9 pr-4 py-1.5 text-xs text-cyber-cyan placeholder-cyber-cyan/40 outline-none focus:border-cyber-cyan/50 transition-all uppercase"
             />
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 font-tech">
           {/* Filter Toggle */}
           <button
             onClick={() => setFiltersOpen(!filtersOpen)}
-            className={`p-2 rounded-lg transition-colors ${
-              filtersOpen ? 'bg-blue-500/20 text-blue-400' : 'text-slate-400 hover:text-white hover:bg-white/5'
+            className={`p-2 rounded-none transition-colors border cursor-pointer ${
+              filtersOpen ? 'bg-cyber-cyan/20 border-cyber-cyan text-cyber-cyan glow-cyan' : 'border-cyber-cyan/20 text-slate-400 hover:text-cyber-cyan hover:bg-cyber-cyan/5'
             }`}
             aria-label="Toggle filters"
           >
@@ -226,21 +225,21 @@ export const MapPage = () => {
           {/* Feed Toggle */}
           <button
             onClick={() => setFeedOpen(!feedOpen)}
-            className={`hidden lg:block px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-              feedOpen ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:text-white bg-white/5 border border-white/10'
+            className={`hidden lg:block px-3 py-1.5 text-xs font-bold rounded-none transition-all cursor-pointer border ${
+              feedOpen ? 'bg-cyber-cyan/15 text-cyber-cyan border-cyber-cyan glow-cyan' : 'text-slate-500 hover:text-cyber-cyan bg-cyber-void/80 border-cyber-cyan/20'
             }`}
           >
-            Live Feed
+            LIVE_FEED_SYS
           </button>
 
           {/* Notifications */}
-          <button className="relative p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors">
+          <button className="relative p-2 text-cyber-cyan hover:text-white rounded-none hover:bg-cyber-cyan/5 transition-colors cursor-pointer">
             <Bell className="w-5 h-5" />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+            <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-cyber-pink rounded-full glow-pink" />
           </button>
 
           {/* Profile */}
-          <div className="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-sm font-bold text-blue-400">
+          <div className="w-8 h-8 rounded-none bg-cyber-cyan/15 border border-cyber-cyan/35 flex items-center justify-center text-xs font-bold text-cyber-cyan glow-cyan">
             {userName.charAt(0).toUpperCase()}
           </div>
         </div>

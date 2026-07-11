@@ -38,40 +38,43 @@ export const WelcomeSection = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="glass rounded-2xl p-6 lg:p-8"
+      className="hud-panel p-6 lg:p-8 hover:border-cyber-cyan/35 hover:shadow-[0_0_15px_rgba(0,212,255,0.08)] transition-all"
     >
+      {/* HUD Brackets Corners */}
+      <div className="hud-corner-tr" />
+      <div className="hud-corner-bl" />
+
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-white mb-1">
-            {greeting()}, <span className="gradient-text">{userName}</span>
+          <h1 className="text-2xl lg:text-3xl font-black uppercase tracking-wider text-white mb-1 font-orbitron">
+            {greeting()}, <span className="gradient-text glow-cyan">{userName}</span>
           </h1>
-          <p className="text-slate-400 text-sm lg:text-base">
-            Stay vigilant. Your reports help keep the community safe.
+          <p className="text-slate-400 text-xs sm:text-sm font-tech uppercase tracking-wide">
+            // TELEMETRY ACTIVE. Your reports secure the grid.
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-4 text-sm text-slate-400">
+        <div className="flex flex-wrap items-center gap-4 text-xs font-tech uppercase tracking-wider text-slate-400">
           <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-blue-400" />
+            <Calendar className="w-4 h-4 text-cyber-cyan glow-cyan" />
             <span>{formattedDate}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-blue-400" />
-            <span className="font-mono">{formattedTime}</span>
+            <Clock className="w-4 h-4 text-cyber-cyan glow-cyan" />
+            <span className="glow-cyan">{formattedTime}</span>
           </div>
           <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-emerald-400" />
-            <span>Downtown, Metro City</span>
+            <MapPin className="w-4 h-4 text-cyber-green glow-green" />
+            <span className="text-cyber-green glow-green">NODE_METRO_CITY</span>
           </div>
         </div>
       </div>
 
       {/* Safety Message */}
-      <div className="mt-4 flex items-center gap-3 px-4 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-        <Shield className="w-5 h-5 text-emerald-400 flex-shrink-0" />
-        <p className="text-sm text-emerald-300">
-          <span className="font-semibold">Safety Tip:</span> Always be aware of your surroundings.
-          Report any suspicious activity immediately.
+      <div className="mt-4 flex items-center gap-3 px-4 py-3 bg-cyber-green/5 border border-cyber-green/30 text-cyber-green glow-green font-tech uppercase text-xs tracking-wider">
+        <Shield className="w-5 h-5 text-cyber-green flex-shrink-0 animate-pulse" />
+        <p className="leading-relaxed">
+          <span className="font-bold">// BROADCAST_ALERT:</span> ALWAYS OBSERVE GRID SECTOR SURROUNDINGS. SUBMIT SUSPICIOUS ACTIVITY SIGNALS IMMEDIATELY.
         </p>
       </div>
     </motion.div>

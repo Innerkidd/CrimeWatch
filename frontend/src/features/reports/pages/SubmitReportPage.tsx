@@ -147,17 +147,16 @@ export const SubmitReportPage = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="space-y-3"
+            className="space-y-3 text-left font-tech"
           >
-            <h1 className="text-2xl lg:text-3xl font-bold text-white">Report a Crime</h1>
-            <p className="text-slate-400">
-              Help keep your community safe by reporting incidents accurately.
+            <h1 className="text-2xl lg:text-3xl font-black text-white font-orbitron uppercase tracking-wider">INIT_CRIME_LOG_TRANSMISSION</h1>
+            <p className="text-xs text-slate-400">
+              // INPUT INCIDENT PARAMETERS TO BROADCAST SIGNAL TO DISPATCH NETWORK.
             </p>
-            <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20">
-              <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0" />
-              <p className="text-sm text-red-300">
-                If this is an emergency, immediately contact your local emergency services at{' '}
-                <span className="font-bold">100</span>.
+            <div className="flex items-center gap-3 px-4 py-3 rounded-none bg-cyber-pink/10 border border-cyber-pink/30 text-cyber-pink glow-pink">
+              <AlertTriangle className="w-5 h-5 text-cyber-pink flex-shrink-0 animate-pulse" />
+              <p className="text-xs leading-normal">
+                CRITICAL WARNING: IF ACTIVE THREAT IS ONGOING, TERMINATE WEB TRANSMISSION AND DIAL EMERGENCY SERVICES AT <span className="font-bold">100</span>.
               </p>
             </div>
           </motion.div>
@@ -167,26 +166,30 @@ export const SubmitReportPage = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="glass rounded-2xl px-6 py-4"
+            className="hud-panel px-6 py-4 relative border border-cyber-cyan/15 bg-cyber-void/80"
           >
-            <div className="flex items-center justify-between">
+            {/* HUD Brackets Corners */}
+            <div className="hud-corner-tr" />
+            <div className="hud-corner-bl" />
+
+            <div className="flex items-center justify-between font-tech text-xs uppercase tracking-wider relative z-10">
               {['Incident', 'Location', 'Evidence', 'Review'].map((label, i) => (
                 <div key={label} className="flex items-center gap-2">
                   <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
+                    className={`w-8 h-8 rounded-none flex items-center justify-center text-sm font-bold border transition-all ${
                       step > i + 1
-                        ? 'bg-emerald-500 text-white'
+                        ? 'bg-cyber-green text-cyber-void border-cyber-green glow-green'
                         : step === i + 1
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-white/5 text-slate-500'
+                        ? 'bg-cyber-cyan text-cyber-void border-cyber-cyan glow-cyan'
+                        : 'bg-cyber-void border-cyber-cyan/20 text-slate-500'
                     }`}
                   >
                     {step > i + 1 ? '✓' : i + 1}
                   </div>
-                  <span className={`text-sm font-medium hidden sm:block ${step === i + 1 ? 'text-white' : 'text-slate-500'}`}>
+                  <span className={`text-xs font-bold hidden sm:block ${step === i + 1 ? 'text-cyber-cyan glow-cyan' : 'text-slate-500'}`}>
                     {label}
                   </span>
-                  {i < 3 && <div className={`w-8 lg:w-16 h-0.5 mx-1 ${step > i + 1 ? 'bg-emerald-500' : 'bg-white/10'}`} />}
+                  {i < 3 && <div className={`w-8 lg:w-16 h-0.5 mx-1 ${step > i + 1 ? 'bg-cyber-green' : 'bg-cyber-cyan/15'}`} />}
                 </div>
               ))}
             </div>
@@ -199,119 +202,133 @@ export const SubmitReportPage = () => {
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="glass rounded-2xl p-6 space-y-5"
+                className="hud-panel p-6 space-y-5 border border-cyber-cyan/15 bg-cyber-void/80 relative"
               >
-                <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-blue-400" />
-                  Incident Information
+                {/* HUD Brackets Corners */}
+                <div className="hud-corner-tr" />
+                <div className="hud-corner-bl" />
+
+                <h2 className="text-sm font-bold font-orbitron text-white flex items-center gap-2 uppercase tracking-wider border-b border-cyber-cyan/15 pb-2 mb-2 relative z-10">
+                  <FileText className="w-5 h-5 text-cyber-cyan glow-cyan" />
+                  INCIDENT_INFORMATION_SCHEMA
                 </h2>
 
                 {/* Crime Type */}
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1.5">
-                    Crime Type <span className="text-red-400">*</span>
+                <div className="relative z-10 font-tech">
+                  <label className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">
+                    CRIME CLASSIFICATION <span className="text-cyber-pink">*</span>
                   </label>
                   <select
                     {...register('crimeType', { required: 'Crime type is required' })}
-                    className="w-full bg-navy-950/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                    className="w-full bg-cyber-void border border-cyber-cyan/25 rounded-none px-4 py-3 text-sm text-cyber-cyan outline-none focus:border-cyber-cyan/50 focus:ring-1 focus:ring-cyber-cyan/10 transition-all font-tech uppercase"
                   >
                     {crimeTypes.map((type) => (
-                      <option key={type} value={type}>{type}</option>
+                      <option key={type} value={type} className="bg-cyber-void text-cyber-cyan">{type}</option>
                     ))}
                   </select>
-                  {errors.crimeType && <p className="text-xs text-red-400 mt-1">{errors.crimeType.message}</p>}
+                  {errors.crimeType && <p className="text-xs text-cyber-pink mt-1">{errors.crimeType.message}</p>}
                 </div>
 
                 {/* Title */}
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1.5">
-                    Incident Title <span className="text-red-400">*</span>
+                <div className="relative z-10 font-tech">
+                  <label className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">
+                    INCIDENT TITLE <span className="text-cyber-pink">*</span>
                   </label>
                   <input
                     type="text"
                     placeholder="Brief summary of the incident"
                     {...register('title', { required: 'Title is required', minLength: { value: 5, message: 'Title must be at least 5 characters' } })}
-                    className="w-full bg-navy-950/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 placeholder-slate-500 outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                    className="w-full bg-cyber-void border border-cyber-cyan/25 rounded-none px-4 py-3 text-sm text-cyber-cyan placeholder-cyber-cyan/40 outline-none focus:border-cyber-cyan/50 focus:ring-1 focus:ring-cyber-cyan/10 transition-all font-tech"
                   />
-                  {errors.title && <p className="text-xs text-red-400 mt-1">{errors.title.message}</p>}
+                  {errors.title && <p className="text-xs text-cyber-pink mt-1">{errors.title.message}</p>}
                 </div>
 
                 {/* Description */}
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-1.5">
-                    Detailed Description <span className="text-red-400">*</span>
+                <div className="relative z-10 font-tech">
+                  <label className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">
+                    DETAILED DESCRIPTION <span className="text-cyber-pink">*</span>
                   </label>
                   <textarea
                     rows={5}
                     placeholder="Describe what happened in detail..."
                     {...register('description', { required: 'Description is required', minLength: { value: 20, message: 'Please provide at least 20 characters' } })}
-                    className="w-full bg-navy-950/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 placeholder-slate-500 outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none"
+                    className="w-full bg-cyber-void border border-cyber-cyan/25 rounded-none px-4 py-3 text-sm text-cyber-cyan placeholder-cyber-cyan/40 outline-none focus:border-cyber-cyan/50 focus:ring-1 focus:ring-cyber-cyan/10 transition-all resize-none font-tech"
                   />
-                  {errors.description && <p className="text-xs text-red-400 mt-1">{errors.description.message}</p>}
+                  {errors.description && <p className="text-xs text-cyber-pink mt-1">{errors.description.message}</p>}
                 </div>
 
                 {/* Date & Time */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10 font-tech">
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-1.5">
-                      <Clock className="w-4 h-4 inline mr-1" />
-                      Date <span className="text-red-400">*</span>
+                    <label className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">
+                      <Clock className="w-4 h-4 inline mr-1 text-cyber-cyan" />
+                      DATE <span className="text-cyber-pink">*</span>
                     </label>
                     <input
                       type="date"
                       {...register('date', { required: 'Date is required' })}
                       disabled={happeningNow}
-                      className="w-full bg-navy-950/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-blue-500/50 transition-all disabled:opacity-50"
+                      className="w-full bg-cyber-void border border-cyber-cyan/25 rounded-none px-4 py-3 text-sm text-cyber-cyan outline-none focus:border-cyber-cyan/50 transition-all disabled:opacity-50 font-tech uppercase"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-1.5">
-                      Time <span className="text-red-400">*</span>
+                    <label className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">
+                      TIME <span className="text-cyber-pink">*</span>
                     </label>
                     <input
                       type="time"
                       {...register('time', { required: 'Time is required' })}
                       disabled={happeningNow}
-                      className="w-full bg-navy-950/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-blue-500/50 transition-all disabled:opacity-50"
+                      className="w-full bg-cyber-void border border-cyber-cyan/25 rounded-none px-4 py-3 text-sm text-cyber-cyan outline-none focus:border-cyber-cyan/50 transition-all disabled:opacity-50 font-tech"
                     />
                   </div>
                 </div>
-                <label className="flex items-center gap-3 cursor-pointer group">
+                <label className="flex items-center gap-3 cursor-pointer group relative z-10 font-tech">
                   <input
                     type="checkbox"
-                    className="w-4 h-4 rounded border-white/20 bg-navy-950/50 text-blue-500 focus:ring-blue-500/20 cursor-pointer"
+                    className="w-4 h-4 rounded-none border border-cyber-cyan/35 bg-cyber-void text-cyber-cyan focus:ring-cyber-cyan/20 cursor-pointer"
                     {...register('happeningNow')}
                   />
-                  <span className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">
-                    Happening right now
+                  <span className="text-xs font-bold text-slate-400 group-hover:text-cyber-cyan transition-colors uppercase tracking-wider">
+                    // ACT_SIGNAL: HAPPENING_RIGHT_NOW (REALTIME_ROUTE)
                   </span>
                 </label>
 
                 {/* Severity */}
-                <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-3">
-                    <Shield className="w-4 h-4 inline mr-1" />
-                    Severity Level <span className="text-red-400">*</span>
+                <div className="relative z-10 font-tech">
+                  <label className="block text-xs font-bold text-slate-400 mb-3 uppercase tracking-wide">
+                    <Shield className="w-4 h-4 inline mr-1 text-cyber-cyan" />
+                    SEVERITY CLASSIFICATION <span className="text-cyber-pink">*</span>
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    {severityLevels.map((sev) => (
-                      <label
-                        key={sev.value}
-                        className={`relative flex items-center justify-center p-3 rounded-xl border cursor-pointer transition-all ${
-                          watch('severity') === sev.value
-                            ? sev.color
-                            : 'border-white/10 bg-white/5 text-slate-400 hover:border-white/20'
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          value={sev.value}
-                          className="sr-only"
-                          {...register('severity')}
-                        />
-                        <span className="text-sm font-semibold capitalize">{sev.label}</span>
-                      </label>
-                    ))}
+                    {severityLevels.map((sev) => {
+                      const isSelected = watch('severity') === sev.value;
+                      const activeStyle =
+                        sev.value === 'low'
+                          ? 'text-cyber-green bg-cyber-green/10 border-cyber-green glow-green'
+                          : sev.value === 'medium'
+                          ? 'text-cyber-yellow bg-cyber-yellow/10 border-cyber-yellow glow-yellow'
+                          : 'text-cyber-pink bg-cyber-pink/10 border-cyber-pink glow-pink';
+
+                      return (
+                        <label
+                          key={sev.value}
+                          className={`relative flex items-center justify-center p-3 rounded-none border cursor-pointer transition-all ${
+                            isSelected
+                              ? activeStyle
+                              : 'border-cyber-cyan/20 bg-cyber-void/80 text-slate-400 hover:border-cyber-cyan/45 hover:text-white'
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            value={sev.value}
+                            className="sr-only"
+                            {...register('severity')}
+                          />
+                          <span className="text-xs font-bold capitalize tracking-wider font-tech uppercase">{sev.label}</span>
+                        </label>
+                      );
+                    })}
                   </div>
                 </div>
               </motion.div>
@@ -322,18 +339,24 @@ export const SubmitReportPage = () => {
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="glass rounded-2xl p-6 space-y-5"
+                className="hud-panel p-6 space-y-5 border border-cyber-cyan/15 bg-cyber-void/80 relative"
               >
-                <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-blue-400" />
-                  Location
+                {/* HUD Brackets Corners */}
+                <div className="hud-corner-tr" />
+                <div className="hud-corner-bl" />
+
+                <h2 className="text-sm font-bold font-orbitron text-white flex items-center gap-2 uppercase tracking-wider border-b border-cyber-cyan/15 pb-2 mb-2 relative z-10">
+                  <MapPin className="w-5 h-5 text-cyber-cyan glow-cyan" />
+                  LOC_COORD_SELECTOR
                 </h2>
-                <LocationPicker
-                  lat={location.lat}
-                  lng={location.lng}
-                  address={location.address}
-                  onChange={setLocation}
-                />
+                <div className="relative z-10">
+                  <LocationPicker
+                    lat={location.lat}
+                    lng={location.lng}
+                    address={location.address}
+                    onChange={setLocation}
+                  />
+                </div>
               </motion.div>
             )}
 
@@ -345,49 +368,63 @@ export const SubmitReportPage = () => {
                 className="space-y-6"
               >
                 {/* Evidence Upload */}
-                <div className="glass rounded-2xl p-6 space-y-5">
-                  <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                    <FileText className="w-5 h-5 text-blue-400" />
-                    Evidence Upload
+                <div className="hud-panel p-6 space-y-5 border border-cyber-cyan/15 bg-cyber-void/80 relative">
+                  {/* HUD Brackets Corners */}
+                  <div className="hud-corner-tr" />
+                  <div className="hud-corner-bl" />
+
+                  <h2 className="text-sm font-bold font-orbitron text-white flex items-center gap-2 uppercase tracking-wider border-b border-cyber-cyan/15 pb-2 mb-2 relative z-10">
+                    <FileText className="w-5 h-5 text-cyber-cyan glow-cyan" />
+                    MEDIA_EVIDENCE_UPLOAD
                   </h2>
-                  <FileUpload files={files} onChange={setFiles} maxFiles={5} maxSizeMB={10} />
+                  <div className="relative z-10">
+                    <FileUpload files={files} onChange={setFiles} maxFiles={5} maxSizeMB={10} />
+                  </div>
                 </div>
 
                 {/* Witness Information */}
-                <div className="glass rounded-2xl p-6 space-y-5">
-                  <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                    <User className="w-5 h-5 text-blue-400" />
-                    Witness Information
-                    <span className="text-xs font-normal text-slate-500">(Optional)</span>
+                <div className="hud-panel p-6 space-y-5 border border-cyber-cyan/15 bg-cyber-void/80 relative">
+                  {/* HUD Brackets Corners */}
+                  <div className="hud-corner-tr" />
+                  <div className="hud-corner-bl" />
+
+                  <h2 className="text-sm font-bold font-orbitron text-white flex items-center gap-2 uppercase tracking-wider border-b border-cyber-cyan/15 pb-2 mb-2 relative z-10">
+                    <User className="w-5 h-5 text-cyber-cyan glow-cyan" />
+                    WITNESS_INFORMATION_LOGS
+                    <span className="text-[10px] font-normal text-slate-500 lowercase tracking-normal font-tech">(optional)</span>
                   </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10 font-tech">
                     <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-1.5">Witness Name</label>
+                      <label className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">WITNESS NAME</label>
                       <input
                         type="text"
                         placeholder="Full name"
                         {...register('witnessName')}
-                        className="w-full bg-navy-950/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 placeholder-slate-500 outline-none focus:border-blue-500/50 transition-all"
+                        className="w-full bg-cyber-void border border-cyber-cyan/25 rounded-none px-4 py-3 text-sm text-cyber-cyan placeholder-cyber-cyan/40 outline-none focus:border-cyber-cyan/50 transition-all font-tech"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-1.5">Witness Contact</label>
+                      <label className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">WITNESS CONTACT</label>
                       <input
                         type="tel"
                         placeholder="Phone number"
                         {...register('witnessContact')}
-                        className="w-full bg-navy-950/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 placeholder-slate-500 outline-none focus:border-blue-500/50 transition-all"
+                        className="w-full bg-cyber-void border border-cyber-cyan/25 rounded-none px-4 py-3 text-sm text-cyber-cyan placeholder-cyber-cyan/40 outline-none focus:border-cyber-cyan/50 transition-all font-tech"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* Anonymous Toggle */}
-                <div className="glass rounded-2xl p-6 space-y-4">
-                  <label className="flex items-center gap-3 cursor-pointer group">
+                <div className="hud-panel p-6 space-y-4 border border-cyber-cyan/15 bg-cyber-void/80 relative">
+                  {/* HUD Brackets Corners */}
+                  <div className="hud-corner-tr" />
+                  <div className="hud-corner-bl" />
+
+                  <label className="flex items-center gap-3 cursor-pointer group relative z-10 font-tech">
                     <input
                       type="checkbox"
-                      className="w-5 h-5 rounded border-white/20 bg-navy-950/50 text-blue-500 focus:ring-blue-500/20 cursor-pointer"
+                      className="w-5 h-5 rounded-none border border-cyber-cyan/35 bg-cyber-void text-cyber-cyan focus:ring-cyber-cyan/20 cursor-pointer"
                       {...register('anonymous')}
                     />
                     <div className="flex items-center gap-2">
@@ -407,43 +444,43 @@ export const SubmitReportPage = () => {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-white/5"
+                      className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-cyber-cyan/15"
                     >
                       <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-1.5">
-                          Full Name <span className="text-red-400">*</span>
+                        <label className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">
+                          Full Name <span className="text-cyber-pink">*</span>
                         </label>
                         <input
                           type="text"
                           placeholder="Your full name"
                           {...register('fullName', !isAnonymous ? { required: 'Name is required' } : undefined)}
-                          className="w-full bg-navy-950/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 placeholder-slate-500 outline-none focus:border-blue-500/50 transition-all"
+                          className="w-full bg-cyber-void border border-cyber-cyan/25 rounded-none px-4 py-3 text-sm text-cyber-cyan placeholder-cyber-cyan/40 outline-none focus:border-cyber-cyan/50 transition-all font-tech"
                         />
-                        {errors.fullName && <p className="text-xs text-red-400 mt-1">{errors.fullName.message}</p>}
+                        {errors.fullName && <p className="text-xs text-cyber-pink mt-1">{errors.fullName.message}</p>}
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-300 mb-1.5">
-                          Mobile Number <span className="text-red-400">*</span>
+                        <label className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">
+                          Mobile Number <span className="text-cyber-pink">*</span>
                         </label>
                         <input
                           type="tel"
                           placeholder="+1 (555) 000-0000"
                           {...register('mobile', !isAnonymous ? { required: 'Mobile is required' } : undefined)}
-                          className="w-full bg-navy-950/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 placeholder-slate-500 outline-none focus:border-blue-500/50 transition-all"
+                          className="w-full bg-cyber-void border border-cyber-cyan/25 rounded-none px-4 py-3 text-sm text-cyber-cyan placeholder-cyber-cyan/40 outline-none focus:border-cyber-cyan/50 transition-all font-tech"
                         />
-                        {errors.mobile && <p className="text-xs text-red-400 mt-1">{errors.mobile.message}</p>}
+                        {errors.mobile && <p className="text-xs text-cyber-pink mt-1">{errors.mobile.message}</p>}
                       </div>
                       <div className="sm:col-span-2">
-                        <label className="block text-sm font-medium text-slate-300 mb-1.5">
-                          Email Address <span className="text-red-400">*</span>
+                        <label className="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wide">
+                          Email Address <span className="text-cyber-pink">*</span>
                         </label>
                         <input
                           type="email"
                           placeholder="you@example.com"
                           {...register('email', !isAnonymous ? { required: 'Email is required', pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: 'Invalid email' } } : undefined)}
-                          className="w-full bg-navy-950/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-200 placeholder-slate-500 outline-none focus:border-blue-500/50 transition-all"
+                          className="w-full bg-cyber-void border border-cyber-cyan/25 rounded-none px-4 py-3 text-sm text-cyber-cyan placeholder-cyber-cyan/40 outline-none focus:border-cyber-cyan/50 transition-all font-tech"
                         />
-                        {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email.message}</p>}
+                        {errors.email && <p className="text-xs text-cyber-pink mt-1">{errors.email.message}</p>}
                       </div>
                     </motion.div>
                   )}
@@ -456,67 +493,71 @@ export const SubmitReportPage = () => {
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="glass rounded-2xl p-6 space-y-5"
+                className="hud-panel p-6 space-y-5 border border-cyber-cyan/15 bg-cyber-void/80 relative"
               >
-                <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                  <Send className="w-5 h-5 text-blue-400" />
-                  Review & Submit
+                {/* HUD Brackets Corners */}
+                <div className="hud-corner-tr" />
+                <div className="hud-corner-bl" />
+
+                <h2 className="text-sm font-bold font-orbitron text-white flex items-center gap-2 uppercase tracking-wider border-b border-cyber-cyan/15 pb-2 mb-2 relative z-10">
+                  <Send className="w-5 h-5 text-cyber-cyan glow-cyan" />
+                  INCIDENT_TRANSMISSION_SUMMARY
                 </h2>
 
                 {/* Summary */}
-                <div className="space-y-3">
+                <div className="space-y-3 relative z-10 font-tech uppercase text-xs">
                   {[
-                    { label: 'Crime Type', value: watch('crimeType') },
-                    { label: 'Title', value: watch('title') },
-                    { label: 'Severity', value: watch('severity') },
-                    { label: 'Date', value: watch('date') },
-                    { label: 'Time', value: watch('time') },
-                    { label: 'Location', value: location.address || `${location.lat.toFixed(4)}, ${location.lng.toFixed(4)}` },
-                    { label: 'Evidence', value: `${files.length} file(s)` },
-                    { label: 'Anonymous', value: isAnonymous ? 'Yes' : 'No' },
+                    { label: 'CRIME CLASSIFICATION', value: watch('crimeType') },
+                    { label: 'LOG_TITLE', value: watch('title') },
+                    { label: 'THREAT_SEVERITY', value: watch('severity') },
+                    { label: 'TRANS_DATE', value: watch('date') },
+                    { label: 'TRANS_TIME', value: watch('time') },
+                    { label: 'COORDINATES_ADDR', value: location.address || `${location.lat.toFixed(4)}, ${location.lng.toFixed(4)}` },
+                    { label: 'ATTACHED_EVIDENCE', value: `${files.length} file(s)` },
+                    { label: 'ANONYMOUS_TRANSMISSION', value: isAnonymous ? 'Yes' : 'No' },
                   ].map((item) => (
-                    <div key={item.label} className="flex items-center justify-between py-2 border-b border-white/5 last:border-0">
-                      <span className="text-sm text-slate-400">{item.label}</span>
-                      <span className="text-sm font-medium text-white capitalize">{item.value}</span>
+                    <div key={item.label} className="flex items-center justify-between py-2 border-b border-cyber-cyan/10 last:border-0">
+                      <span className="text-slate-450 font-bold">{item.label}</span>
+                      <span className="font-bold text-white max-w-[240px] truncate">{item.value}</span>
                     </div>
                   ))}
                 </div>
 
                 {/* Declaration */}
-                <label className="flex items-start gap-3 cursor-pointer group p-4 rounded-xl bg-white/[0.02] border border-white/5">
+                <label className="flex items-start gap-3 cursor-pointer group p-4 rounded-none bg-cyber-cyan/5 border border-cyber-cyan/15 relative z-10 font-tech">
                   <input
                     type="checkbox"
-                    className="mt-0.5 w-4 h-4 rounded border-white/20 bg-navy-950/50 text-blue-500 focus:ring-blue-500/20 cursor-pointer"
+                    className="mt-0.5 w-4 h-4 rounded-none border border-cyber-cyan/35 bg-cyber-void text-cyber-cyan focus:ring-cyber-cyan/20 cursor-pointer"
                     {...register('declaration', { required: 'You must confirm the declaration' })}
                   />
-                  <span className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">
-                    I confirm that the information provided is true to the best of my knowledge. I understand that filing a false report is a criminal offense.
+                  <span className="text-xs text-slate-450 group-hover:text-cyber-cyan transition-colors leading-relaxed uppercase tracking-wider">
+                    I CONFIRM THAT THE DETAILS TRANSMITTED ARE VALID. I UNDERSTAND THAT FALSE DISPATCH SIGNAL BROADCASTING IS A PENAL SECTOR OFFENSE.
                   </span>
                 </label>
-                {errors.declaration && <p className="text-xs text-red-400">{errors.declaration.message}</p>}
+                {errors.declaration && <p className="text-xs text-cyber-pink relative z-10">{errors.declaration.message}</p>}
               </motion.div>
             )}
 
             {/* Navigation Buttons */}
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center justify-between gap-4 font-tech text-xs uppercase tracking-wider">
               <div className="flex items-center gap-3">
                 {step > 1 && (
                   <button
                     type="button"
                     onClick={() => setStep(step - 1)}
-                    className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-slate-300 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-colors"
+                    className="flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-cyber-cyan bg-cyber-cyan/5 border border-cyber-cyan/25 rounded-none hover:bg-cyber-cyan/15 transition-colors cursor-pointer chamfer-button"
                   >
                     <ChevronLeft className="w-4 h-4" />
-                    Back
+                    BACK_COORD
                   </button>
                 )}
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-slate-400 hover:text-white rounded-xl transition-colors"
+                  className="flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-slate-500 hover:text-cyber-cyan rounded-none transition-colors cursor-pointer"
                 >
                   <RotateCcw className="w-4 h-4" />
-                  Reset
+                  SYS_RESET
                 </button>
               </div>
 
@@ -524,28 +565,28 @@ export const SubmitReportPage = () => {
                 <button
                   type="button"
                   onClick={handleSaveDraft}
-                  className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-slate-300 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-colors"
+                  className="flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-cyber-cyan bg-cyber-cyan/5 border border-cyber-cyan/25 rounded-none hover:bg-cyber-cyan/15 transition-colors cursor-pointer chamfer-button"
                 >
                   <Save className="w-4 h-4" />
-                  Save Draft
+                  SAVE_DRAFT
                 </button>
 
                 {step < totalSteps ? (
                   <button
                     type="button"
                     onClick={() => setStep(step + 1)}
-                    className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded-xl shadow-lg shadow-blue-600/25 transition-all"
+                    className="flex items-center gap-2 px-6 py-2.5 text-xs font-bold text-cyber-void bg-cyber-cyan hover:bg-cyber-green rounded-none shadow-[0_0_10px_rgba(0,212,255,0.25)] transition-all cursor-pointer chamfer-button"
                   >
-                    Next
-                    <ChevronRight className="w-4 h-4" />
+                    NEXT_STEP
+                    <ChevronRight className="w-4 h-4 text-cyber-void" />
                   </button>
                 ) : (
                   <button
                     type="submit"
-                    className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-red-600 hover:bg-red-500 rounded-xl shadow-lg shadow-red-600/25 transition-all"
+                    className="flex items-center gap-2 px-6 py-2.5 text-xs font-bold text-white bg-cyber-pink hover:bg-white hover:text-cyber-void border border-cyber-pink rounded-none shadow-[0_0_10px_rgba(255,0,119,0.25)] transition-all cursor-pointer chamfer-button"
                   >
                     <Send className="w-4 h-4" />
-                    Submit Report
+                    BROADCAST_LOG
                   </button>
                 )}
               </div>
