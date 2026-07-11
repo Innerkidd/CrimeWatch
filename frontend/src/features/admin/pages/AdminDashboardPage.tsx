@@ -61,17 +61,23 @@ export const AdminDashboardPage: React.FC = () => {
   ] as const;
 
   return (
-    <div className="flex h-screen bg-slate-900 text-slate-100 font-sans overflow-hidden">
+    <div className="flex h-screen bg-cyber-void text-slate-100 font-tech overflow-hidden relative">
+      {/* Scanline CRT overlay */}
+      <div className="scanlines z-50 pointer-events-none" />
+
       {/* Sidebar for Desktop */}
-      <aside className="hidden lg:flex w-64 bg-slate-950 border-r border-slate-800 flex-col">
-        <div className="h-16 flex items-center px-6 border-b border-slate-850 gap-3">
-          <Shield className="w-8 h-8 text-indigo-500 animate-pulse" />
-          <span className="font-black text-lg tracking-wider bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+      <aside className="hidden lg:flex w-64 bg-cyber-void border-r border-cyber-cyan/15 flex-col z-20 relative">
+        {/* Background Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,212,255,0.01)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,212,255,0.01)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
+
+        <div className="h-16 flex items-center px-6 border-b border-cyber-cyan/15 gap-3 font-orbitron relative z-10">
+          <Shield className="w-7 h-7 text-cyber-cyan glow-cyan animate-pulse" />
+          <span className="font-black text-base tracking-widest text-white">
             CRIMEWATCH
           </span>
         </div>
 
-        <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+        <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto relative z-10 font-tech uppercase text-xs tracking-wider">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -79,10 +85,10 @@ export const AdminDashboardPage: React.FC = () => {
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all duration-200 ${
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-none transition-all duration-200 cursor-pointer ${
                   isActive
-                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20'
-                    : 'text-slate-400 hover:text-indigo-400 hover:bg-slate-900/60'
+                    ? 'border border-cyber-cyan bg-cyber-cyan/10 text-cyber-cyan glow-cyan chamfer-button'
+                    : 'text-slate-400 hover:text-cyber-cyan hover:bg-cyber-cyan/5'
                 }`}
               >
                 <Icon className="w-4.5 h-4.5" />
@@ -92,10 +98,10 @@ export const AdminDashboardPage: React.FC = () => {
           })}
         </nav>
 
-        <div className="p-4 border-t border-slate-850">
+        <div className="p-4 border-t border-cyber-cyan/15 relative z-10 font-tech uppercase text-xs tracking-wider">
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold text-rose-400 hover:bg-rose-950/20 transition-all duration-200"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-none text-cyber-pink border border-transparent hover:border-cyber-pink/35 hover:bg-cyber-pink/5 transition-all duration-200 cursor-pointer chamfer-button"
           >
             <LogOut className="w-4.5 h-4.5" />
             <span>Logout Panel</span>
@@ -104,58 +110,58 @@ export const AdminDashboardPage: React.FC = () => {
       </aside>
 
       {/* Main Panel Content Container */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden relative z-10">
         {/* Top Navbar */}
-        <header className="h-16 border-b border-slate-850 bg-slate-950/40 backdrop-blur px-6 lg:px-8 flex items-center justify-between z-30">
+        <header className="h-16 border-b border-cyber-cyan/15 bg-cyber-void/80 backdrop-blur px-6 lg:px-8 flex items-center justify-between z-30 relative">
           {/* Mobile Menu trigger */}
           <div className="flex items-center gap-3 lg:hidden">
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="p-1.5 bg-slate-900 border border-slate-800 rounded-lg text-slate-400 hover:text-slate-200"
+              className="p-1.5 bg-cyber-void border border-cyber-cyan/20 rounded-none text-cyber-cyan hover:text-white cursor-pointer"
             >
               <Menu className="w-5 h-5" />
             </button>
-            <Shield className="w-6 h-6 text-indigo-500" />
-            <span className="font-bold text-sm tracking-wide text-slate-100">CrimeWatch</span>
+            <Shield className="w-6 h-6 text-cyber-cyan glow-cyan" />
+            <span className="font-bold text-sm tracking-widest text-slate-100 font-orbitron">CRIMEWATCH</span>
           </div>
 
           {/* Global search */}
-          <div className="hidden md:flex relative w-80">
-            <Search className="absolute left-3 top-3 w-4 h-4 text-slate-500" />
+          <div className="hidden md:flex relative w-80 font-tech">
+            <Search className="absolute left-3 top-3 w-4 h-4 text-cyber-cyan glow-cyan" />
             <input
               type="text"
-              placeholder="Search reports, badges, locations..."
-              className="w-full bg-slate-900/50 border border-slate-800 rounded-lg pl-9 pr-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+              placeholder="SEARCH METADATA..."
+              className="w-full bg-cyber-void border border-cyber-cyan/20 rounded-none pl-9 pr-4 py-2 text-xs text-cyber-cyan placeholder-cyber-cyan/40 focus:outline-none focus:border-cyber-cyan/60 focus:ring-1 focus:ring-cyber-cyan/10"
             />
           </div>
 
           {/* Actions & Alerts */}
           <div className="flex items-center gap-4">
             {/* System Health */}
-            <div className="hidden sm:flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">SmartCity Grid Online</span>
+            <div className="hidden sm:flex items-center gap-2 font-tech uppercase text-[10px]">
+              <div className="w-2 h-2 rounded-full bg-cyber-green animate-pulse glow-green" />
+              <span className="text-cyber-green glow-green font-bold tracking-wider">SYSTEM_SECURE_GRID_SYNC</span>
             </div>
 
             {/* Notification bell */}
             <div className="relative">
               <button
                 onClick={() => setNotificationsOpen(!notificationsOpen)}
-                className="p-2 bg-slate-900/50 border border-slate-800 rounded-lg text-slate-400 hover:text-indigo-400 transition-colors relative"
+                className="p-2 bg-cyber-void border border-cyber-cyan/20 rounded-none text-cyber-cyan hover:text-white cursor-pointer relative"
               >
                 <Bell className="w-4.5 h-4.5" />
-                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500 animate-ping" />
+                <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-cyber-pink animate-ping glow-pink" />
               </button>
 
               <AnimatePresence>
                 {notificationsOpen && (
-                  <div className="absolute right-0 mt-2 bg-slate-950 border border-slate-800 rounded-xl p-3 w-72 shadow-2xl z-40 space-y-2">
-                    <span className="text-[10px] text-slate-500 font-bold block uppercase tracking-wider">Alerts Center</span>
+                  <div className="absolute right-0 mt-2 bg-cyber-void border border-cyber-cyan/20 rounded-none p-3 w-72 shadow-2xl z-40 space-y-2 font-tech uppercase">
+                    <span className="text-[10px] text-cyber-pink glow-pink font-bold block tracking-widest">// ALERTS_CENTER</span>
                     <div className="space-y-2 max-h-52 overflow-y-auto pr-1">
                       {state.alerts.map((a) => (
-                        <div key={a.id} className="text-xs bg-slate-900 p-2 rounded-lg border border-slate-850">
-                          <span className="font-bold text-rose-400 block">{a.type}</span>
-                          <p className="text-slate-300 text-[10px] mt-0.5">{a.title}</p>
+                        <div key={a.id} className="text-[10px] bg-cyber-cyan/5 p-2 border border-cyber-cyan/15 rounded-none">
+                          <span className="font-bold text-cyber-pink glow-pink block">{a.type}</span>
+                          <p className="text-slate-350 mt-0.5 leading-normal">{a.title}</p>
                         </div>
                       ))}
                     </div>
@@ -165,33 +171,33 @@ export const AdminDashboardPage: React.FC = () => {
             </div>
 
             {/* Profile Dropdown */}
-            <div className="relative">
+            <div className="relative font-tech uppercase">
               <button
                 onClick={() => setProfileOpen(!profileOpen)}
-                className="flex items-center gap-2 bg-slate-900/50 border border-slate-800 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-slate-100 transition-colors"
+                className="flex items-center gap-2 bg-cyber-void border border-cyber-cyan/20 px-3 py-1.5 rounded-none text-xs font-bold text-cyber-cyan hover:text-white cursor-pointer"
               >
-                <div className="w-6 h-6 rounded-full bg-indigo-950 border border-indigo-500/30 flex items-center justify-center font-bold text-indigo-400 text-[10px]">
+                <div className="w-6 h-6 rounded-none bg-cyber-cyan/15 border border-cyber-cyan flex items-center justify-center font-bold text-cyber-cyan text-[10px] glow-cyan">
                   AD
                 </div>
                 <span className="hidden sm:inline">Admin Desk</span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+                <ChevronDown className="w-3.5 h-3.5 text-cyber-cyan" />
               </button>
 
               <AnimatePresence>
                 {profileOpen && (
-                  <div className="absolute right-0 mt-2 bg-slate-950 border border-slate-800 rounded-xl p-2 w-48 shadow-2xl z-40 space-y-1 text-left">
+                  <div className="absolute right-0 mt-2 bg-cyber-void border border-cyber-cyan/20 rounded-none p-2 w-48 shadow-2xl z-40 space-y-1 text-left">
                     <button
                       onClick={() => {
                         setActiveTab('settings');
                         setProfileOpen(false);
                       }}
-                      className="w-full text-left px-3 py-2 hover:bg-slate-900 text-xs rounded-lg text-slate-300 hover:text-indigo-400 font-semibold"
+                      className="w-full text-left px-3 py-2 hover:bg-cyber-cyan/10 text-xs rounded-none text-slate-300 hover:text-cyber-cyan font-bold cursor-pointer"
                     >
-                      System Configurations
+                      System Configs
                     </button>
                     <button
                       onClick={handleLogout}
-                      className="w-full text-left px-3 py-2 hover:bg-rose-950/20 text-xs rounded-lg text-rose-400 font-semibold flex items-center gap-2"
+                      className="w-full text-left px-3 py-2 hover:bg-cyber-pink/15 text-xs rounded-none text-cyber-pink font-bold flex items-center gap-2 cursor-pointer"
                     >
                       <LogOut className="w-4 h-4" />
                       <span>Log Out</span>
@@ -204,7 +210,7 @@ export const AdminDashboardPage: React.FC = () => {
         </header>
 
         {/* Content Body */}
-        <main className="flex-1 overflow-y-auto p-6 lg:p-8 space-y-8 bg-slate-900/50">
+        <main className="flex-1 overflow-y-auto p-6 lg:p-8 space-y-8 bg-cyber-void">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -242,12 +248,12 @@ export const AdminDashboardPage: React.FC = () => {
 
                     <div className="space-y-8">
                       {/* Emergency alerts summary */}
-                      <div className="bg-slate-950/40 backdrop-blur border border-slate-800 rounded-2xl p-6 shadow-xl">
+                      <div className="bg-cyber-void/80 border border-cyber-cyan/15 rounded-none relative">
                         <EmergencyAlertCenter alerts={state.alerts} onBroadcast={state.broadcastAlert} />
                       </div>
 
                       {/* Operations Audit feed summary */}
-                      <div className="bg-slate-950/40 backdrop-blur border border-slate-800 rounded-2xl p-6 shadow-xl">
+                      <div className="bg-cyber-void/80 border border-cyber-cyan/15 rounded-none relative">
                         <SystemActivityFeed logs={state.logs} />
                       </div>
                     </div>
@@ -292,38 +298,42 @@ export const AdminDashboardPage: React.FC = () => {
               )}
 
               {activeTab === 'alerts' && (
-                <div className="bg-slate-950/40 backdrop-blur border border-slate-800 rounded-2xl p-8 shadow-xl">
+                <div className="bg-cyber-void border border-cyber-cyan/20 rounded-none p-8">
                   <EmergencyAlertCenter alerts={state.alerts} onBroadcast={state.broadcastAlert} />
                 </div>
               )}
 
               {activeTab === 'logs' && (
-                <div className="bg-slate-950/40 backdrop-blur border border-slate-800 rounded-2xl p-8 shadow-xl">
+                <div className="bg-cyber-void border border-cyber-cyan/20 rounded-none p-8">
                   <SystemActivityFeed logs={state.logs} />
                 </div>
               )}
 
               {activeTab === 'settings' && (
-                <div className="max-w-2xl mx-auto bg-slate-950/40 backdrop-blur border border-slate-800 rounded-2xl p-8 space-y-6 shadow-xl">
-                  <div>
-                    <h3 className="text-lg font-bold text-slate-100">Global System Settings</h3>
-                    <p className="text-slate-500 text-xs mt-0.5">Configure operational bounds and alert radius</p>
+                <div className="max-w-2xl mx-auto bg-cyber-void border border-cyber-cyan/20 rounded-none p-8 space-y-6 relative hud-panel">
+                  {/* HUD Brackets Corners */}
+                  <div className="hud-corner-tr" />
+                  <div className="hud-corner-bl" />
+
+                  <div className="font-tech uppercase">
+                    <h3 className="text-sm font-bold text-cyber-cyan glow-cyan font-orbitron">SYSTEM_CONFIGS</h3>
+                    <p className="text-slate-500 text-[10px] mt-0.5">// Configure operational bounds and alert thresholds.</p>
                   </div>
 
-                  <form className="space-y-4 text-xs" onSubmit={(e) => { e.preventDefault(); alert('Configurations saved!'); }}>
+                  <form className="space-y-4 text-xs font-tech uppercase" onSubmit={(e) => { e.preventDefault(); alert('Configurations saved!'); }}>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-slate-400 font-semibold mb-1.5 uppercase tracking-wider">SMS Alert Radius (km)</label>
-                        <input type="number" defaultValue={5} className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-indigo-500" />
+                        <label className="block text-slate-400 font-bold mb-1.5 uppercase tracking-wider">SMS Alert Radius (km)</label>
+                        <input type="number" defaultValue={5} className="w-full bg-cyber-void border border-cyber-cyan/20 rounded-none px-3 py-2 text-cyber-cyan focus:outline-none focus:border-cyber-cyan" />
                       </div>
                       <div>
-                        <label className="block text-slate-400 font-semibold mb-1.5 uppercase tracking-wider">Max Dispatch Load/Officer</label>
-                        <input type="number" defaultValue={4} className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-indigo-500" />
+                        <label className="block text-slate-400 font-bold mb-1.5 uppercase tracking-wider">Max Dispatch Load/Officer</label>
+                        <input type="number" defaultValue={4} className="w-full bg-cyber-void border border-cyber-cyan/20 rounded-none px-3 py-2 text-cyber-cyan focus:outline-none focus:border-cyber-cyan" />
                       </div>
                     </div>
 
-                    <div className="flex justify-end pt-4 border-t border-slate-900">
-                      <button type="submit" className="bg-indigo-650 hover:bg-indigo-600 px-5 py-2 rounded-lg text-white font-bold transition-all">
+                    <div className="flex justify-end pt-4 border-t border-cyber-cyan/15">
+                      <button type="submit" className="bg-cyber-cyan hover:bg-cyber-green px-5 py-2 text-cyber-void font-bold transition-all chamfer-button rounded-none border border-transparent cursor-pointer">
                         Save Configurations
                       </button>
                     </div>
@@ -335,12 +345,12 @@ export const AdminDashboardPage: React.FC = () => {
         </main>
 
         {/* Footer */}
-        <footer className="h-12 border-t border-slate-850 bg-slate-950/20 px-6 lg:px-8 flex items-center justify-between text-[10px] text-slate-500 font-semibold uppercase tracking-wider">
-          <span>CrimeWatch System v1.0.0</span>
+        <footer className="h-12 border-t border-cyber-cyan/15 bg-cyber-void px-6 lg:px-8 flex items-center justify-between text-[9px] text-slate-500 font-bold uppercase tracking-wider font-tech">
+          <span>CrimeWatch System v2.10</span>
           <div className="flex gap-4">
-            <a href="#" className="hover:text-indigo-400 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-indigo-400 transition-colors">Terms of Operations</a>
-            <a href="#" className="hover:text-indigo-400 transition-colors">Support Center</a>
+            <a href="#" className="hover:text-cyber-cyan transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-cyber-cyan transition-colors">Terms of Operations</a>
+            <a href="#" className="hover:text-cyber-cyan transition-colors">Support Center</a>
           </div>
           <span>&copy; 2026 CrimeWatch Command. All rights reserved.</span>
         </footer>
@@ -355,7 +365,7 @@ export const AdminDashboardPage: React.FC = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs"
+              className="fixed inset-0 bg-cyber-void/80 backdrop-blur-xs"
             />
             
             <motion.div
@@ -363,19 +373,19 @@ export const AdminDashboardPage: React.FC = () => {
               animate={{ x: 0 }}
               exit={{ x: -280 }}
               transition={{ type: 'tween', duration: 0.2 }}
-              className="relative w-64 bg-slate-950 border-r border-slate-850 flex flex-col z-10"
+              className="relative w-64 bg-cyber-void border-r border-cyber-cyan/15 flex flex-col z-10"
             >
-              <div className="h-16 flex items-center px-6 border-b border-slate-850 justify-between">
+              <div className="h-16 flex items-center px-6 border-b border-cyber-cyan/15 justify-between">
                 <div className="flex items-center gap-2">
-                  <Shield className="w-6 h-6 text-indigo-500" />
-                  <span className="font-bold text-sm text-slate-100">CrimeWatch</span>
+                  <Shield className="w-6 h-6 text-cyber-cyan glow-cyan" />
+                  <span className="font-bold text-sm text-slate-100 font-orbitron tracking-wider">CRIMEWATCH</span>
                 </div>
-                <button onClick={() => setMobileMenuOpen(false)} className="text-slate-400 hover:text-slate-200">
+                <button onClick={() => setMobileMenuOpen(false)} className="text-cyber-cyan hover:text-white cursor-pointer">
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <nav className="flex-1 px-4 py-4 space-y-1.5 overflow-y-auto">
+              <nav className="flex-1 px-4 py-4 space-y-2 overflow-y-auto font-tech uppercase text-xs tracking-wider">
                 {menuItems.map((item) => {
                   const Icon = item.icon;
                   const isActive = activeTab === item.id;
@@ -386,10 +396,10 @@ export const AdminDashboardPage: React.FC = () => {
                         setActiveTab(item.id);
                         setMobileMenuOpen(false);
                       }}
-                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 ${
+                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-none transition-all duration-200 cursor-pointer ${
                         isActive
-                          ? 'bg-indigo-600 text-white'
-                          : 'text-slate-400 hover:text-indigo-400 hover:bg-slate-900/60'
+                          ? 'border border-cyber-cyan bg-cyber-cyan/10 text-cyber-cyan glow-cyan chamfer-button'
+                          : 'text-slate-400 hover:text-cyber-cyan hover:bg-cyber-cyan/5'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
@@ -399,10 +409,10 @@ export const AdminDashboardPage: React.FC = () => {
                 })}
               </nav>
 
-              <div className="p-4 border-t border-slate-850">
+              <div className="p-4 border-t border-cyber-cyan/15 font-tech uppercase text-xs tracking-wider">
                 <button
                   onClick={handleLogout}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-bold text-rose-400 hover:bg-rose-950/20 transition-all duration-200"
+                  className="w-full flex items-center gap-3 px-4 py-2.5 rounded-none text-cyber-pink border border-transparent hover:border-cyber-pink/35 hover:bg-cyber-pink/5 transition-all duration-200 cursor-pointer chamfer-button"
                 >
                   <LogOut className="w-4 h-4" />
                   <span>Logout</span>

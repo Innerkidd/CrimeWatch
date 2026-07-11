@@ -25,14 +25,14 @@ export const StatCards: React.FC<StatCardsProps> = ({ reports, officers }) => {
   const topHotspot = Object.keys(hotspotsCount).reduce((a, b) => hotspotsCount[a] > hotspotsCount[b] ? a : b, 'Central Sector');
 
   const cardData = [
-    { title: 'Total Reports', value: totalReports, icon: Shield, color: 'text-indigo-400', bg: 'bg-indigo-500/10', border: 'border-indigo-500/20', trend: '+14% from last week', trendColor: 'text-emerald-500' },
-    { title: 'Reports Today', value: reportsToday, icon: Calendar, color: 'text-cyan-400', bg: 'bg-cyan-500/10', border: 'border-cyan-500/20', trend: 'Same as yesterday', trendColor: 'text-slate-400' },
-    { title: 'Pending Verification', value: pendingVerification, icon: AlertCircle, color: 'text-amber-500', bg: 'bg-amber-500/10', border: 'border-amber-500/20', trend: '-8% since morning', trendColor: 'text-emerald-500' },
-    { title: 'Active Investigations', value: activeInvestigations, icon: AlertTriangle, color: 'text-rose-500', bg: 'bg-rose-500/10', border: 'border-rose-500/20', trend: '+2 new cases today', trendColor: 'text-rose-500' },
-    { title: 'Resolved Cases', value: resolvedCases, icon: CheckCircle, color: 'text-emerald-500', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', trend: '98% resolution target', trendColor: 'text-emerald-500' },
-    { title: 'High Priority Cases', value: highPriorityCases, icon: AlertCircle, color: 'text-red-500', bg: 'bg-red-500/10', border: 'border-red-500/20', trend: 'Immediate action req.', trendColor: 'text-red-500 font-bold' },
-    { title: 'Online Officers', value: `${onlineOfficers}/${officers.length}`, icon: Users, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', trend: '90% active patrol', trendColor: 'text-emerald-500' },
-    { title: 'Crime Hotspots', value: topHotspot.substring(0, 14) + '...', icon: MapPin, color: 'text-fuchsia-400', bg: 'bg-fuchsia-500/10', border: 'border-fuchsia-500/20', trend: 'High density area', trendColor: 'text-fuchsia-400' },
+    { title: 'Total Reports', value: totalReports, icon: Shield, colorClass: 'text-cyber-cyan', borderClass: 'border-cyber-cyan/20 hover:border-cyber-cyan/45 hover:shadow-[0_0_12px_rgba(0,212,255,0.12)]', iconBg: 'bg-cyber-cyan/10 border border-cyber-cyan/20', trend: 'NODE_LOGS_SYNCED', trendColor: 'text-cyber-cyan' },
+    { title: 'Reports Today', value: reportsToday, icon: Calendar, colorClass: 'text-cyber-cyan', borderClass: 'border-cyber-cyan/20 hover:border-cyber-cyan/45 hover:shadow-[0_0_12px_rgba(0,212,255,0.12)]', iconBg: 'bg-cyber-cyan/10 border border-cyber-cyan/20', trend: 'SYNC_RATE_OK', trendColor: 'text-cyber-cyan' },
+    { title: 'Pending Verification', value: pendingVerification, icon: AlertCircle, colorClass: 'text-cyber-yellow', borderClass: 'border-cyber-yellow/20 hover:border-cyber-yellow/45 hover:shadow-[0_0_12px_rgba(255,179,0,0.12)]', iconBg: 'bg-cyber-yellow/10 border border-cyber-yellow/20', trend: 'DISPATCH_QUEUE_PENDING', trendColor: 'text-cyber-yellow' },
+    { title: 'Active Investigations', value: activeInvestigations, icon: AlertTriangle, colorClass: 'text-cyber-pink', borderClass: 'border-cyber-pink/20 hover:border-cyber-pink/45 hover:shadow-[0_0_12px_rgba(255,0,119,0.12)]', iconBg: 'bg-cyber-pink/10 border border-cyber-pink/20', trend: 'ACTIVE_INTERCEPT_VECTORS', trendColor: 'text-cyber-pink' },
+    { title: 'Resolved Cases', value: resolvedCases, icon: CheckCircle, colorClass: 'text-cyber-green', borderClass: 'border-cyber-green/20 hover:border-cyber-green/45 hover:shadow-[0_0_12px_rgba(0,255,136,0.12)]', iconBg: 'bg-cyber-green/10 border border-cyber-green/20', trend: 'THREATS_TERMINATED', trendColor: 'text-cyber-green' },
+    { title: 'High Priority Cases', value: highPriorityCases, icon: AlertCircle, colorClass: 'text-cyber-pink', borderClass: 'border-cyber-pink/20 hover:border-cyber-pink/45 hover:shadow-[0_0_12px_rgba(255,0,119,0.12)]', iconBg: 'bg-cyber-pink/10 border border-cyber-pink/20', trend: 'CRIT_ALERT_PROTOCOL', trendColor: 'text-cyber-pink font-bold' },
+    { title: 'Online Officers', value: `${onlineOfficers}/${officers.length}`, icon: Users, colorClass: 'text-cyber-green', borderClass: 'border-cyber-green/20 hover:border-cyber-green/45 hover:shadow-[0_0_12px_rgba(0,255,136,0.12)]', iconBg: 'bg-cyber-green/10 border border-cyber-green/20', trend: 'PATROL_NODES_ACTIVE', trendColor: 'text-cyber-green' },
+    { title: 'Crime Hotspots', value: topHotspot.substring(0, 14).toUpperCase() + '...', icon: MapPin, colorClass: 'text-cyber-pink', borderClass: 'border-cyber-pink/20 hover:border-cyber-pink/45 hover:shadow-[0_0_12px_rgba(255,0,119,0.12)]', iconBg: 'bg-cyber-pink/10 border border-cyber-pink/20', trend: 'DENSITY_PEAK_ZONE', trendColor: 'text-cyber-pink' },
   ];
 
   return (
@@ -45,18 +45,22 @@ export const StatCards: React.FC<StatCardsProps> = ({ reports, officers }) => {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: idx * 0.05 }}
-            className={`bg-slate-950/40 backdrop-blur border ${card.border} rounded-2xl p-6 flex flex-col justify-between hover:shadow-indigo-950/20 hover:shadow-xl hover:border-slate-700/50 transition-all duration-300`}
+            className={`hud-panel p-5 flex flex-col justify-between transition-all duration-300 relative border ${card.borderClass}`}
           >
-            <div className="flex items-center justify-between">
-              <span className="text-slate-400 text-xs font-semibold uppercase tracking-wider">{card.title}</span>
-              <div className={`w-9 h-9 rounded-lg ${card.bg} flex items-center justify-center ${card.color}`}>
+            {/* HUD Brackets Corners */}
+            <div className="hud-corner-tr" />
+            <div className="hud-corner-bl" />
+
+            <div className="flex items-center justify-between relative z-10 font-tech">
+              <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">{card.title}</span>
+              <div className={`w-9 h-9 rounded-lg ${card.iconBg} flex items-center justify-center ${card.colorClass}`}>
                 <Icon className="w-5 h-5" />
               </div>
             </div>
             
-            <div className="mt-4">
-              <h3 className="text-2xl font-black text-slate-100 tracking-tight">{card.value}</h3>
-              <p className={`text-[11px] ${card.trendColor} mt-1 flex items-center gap-1 font-medium`}>
+            <div className="mt-4 relative z-10">
+              <h3 className="text-2xl font-black text-slate-100 tracking-tight font-orbitron">{card.value}</h3>
+              <p className={`text-[9px] ${card.trendColor} mt-1.5 flex items-center gap-1 font-bold font-tech uppercase tracking-wider`}>
                 <TrendingUp className="w-3.5 h-3.5" />
                 <span>{card.trend}</span>
               </p>

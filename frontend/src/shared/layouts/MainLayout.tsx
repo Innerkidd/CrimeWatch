@@ -53,7 +53,9 @@ export const MainLayout = () => {
   const userInitial = userName.charAt(0).toUpperCase();
 
   return (
-    <div className="flex h-screen bg-navy-950 text-slate-100 font-sans overflow-hidden">
+    <div className="flex h-screen bg-cyber-void text-slate-100 font-sans overflow-hidden scanlines relative">
+      {/* HUD Background Grid lines */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,212,255,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,212,255,0.015)_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none z-0" />
       {/* Mobile Overlay */}
       <AnimatePresence>
         {mobileOpen && (
@@ -74,21 +76,21 @@ export const MainLayout = () => {
         } ${mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
       >
         {/* Logo */}
-        <div className="h-16 flex items-center justify-between px-4 border-b border-white/5">
+        <div className="h-16 flex items-center justify-between px-4 border-b border-white/5 relative z-10">
           {!collapsed && (
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
-                <Shield className="w-5 h-5 text-white" />
+            <div className="flex items-center gap-2.5 font-orbitron">
+              <div className="w-8 h-8 rounded-lg bg-cyber-cyan/10 border border-cyber-cyan/40 flex items-center justify-center glow-border-cyan animate-pulse">
+                <Shield className="w-5 h-5 text-cyber-cyan" />
               </div>
-              <span className="font-bold text-sm tracking-wider">
+              <span className="font-black text-sm tracking-widest">
                 <span className="text-white">CRIME</span>
-                <span className="text-blue-400">WATCH</span>
+                <span className="text-cyber-cyan glow-cyan">WATCH</span>
               </span>
             </div>
           )}
           {collapsed && (
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center mx-auto">
-              <Shield className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 rounded-lg bg-cyber-cyan/10 border border-cyber-cyan/40 flex items-center justify-center mx-auto glow-border-cyan animate-pulse">
+              <Shield className="w-5 h-5 text-cyber-cyan" />
             </div>
           )}
           <button
@@ -100,8 +102,7 @@ export const MainLayout = () => {
           </button>
         </div>
 
-        {/* Nav Items */}
-        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto relative z-10">
           {navItems.map((item) => {
             const isActive = location.pathname === item.href;
             return (
@@ -111,25 +112,24 @@ export const MainLayout = () => {
                   navigate(item.href);
                   setMobileOpen(false);
                 }}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                   isActive
-                    ? 'bg-blue-600/10 text-blue-400 border border-blue-500/20'
-                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                    ? 'bg-cyber-cyan/10 text-cyber-cyan border border-cyber-cyan/30 glow-cyan font-orbitron font-bold shadow-[inset_0_0_10px_rgba(0,212,255,0.05)]'
+                    : 'text-slate-400 hover:text-white hover:bg-white/5 font-orbitron'
                 } ${collapsed ? 'justify-center' : ''}`}
                 title={collapsed ? item.label : undefined}
               >
-                <item.icon className="w-5 h-5 flex-shrink-0" />
+                <item.icon className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-cyber-cyan glow-cyan' : ''}`} />
                 {!collapsed && <span>{item.label}</span>}
               </button>
             );
           })}
         </nav>
 
-        {/* Home & Logout */}
-        <div className="px-3 py-4 border-t border-white/5 space-y-1">
+        <div className="px-3 py-4 border-t border-white/5 space-y-1 relative z-10">
           <button
             onClick={() => navigate('/')}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all duration-200 ${collapsed ? 'justify-center' : ''}`}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 font-orbitron transition-all duration-200 ${collapsed ? 'justify-center' : ''}`}
             title={collapsed ? 'Home' : undefined}
           >
             <Home className="w-5 h-5 flex-shrink-0" />
@@ -137,7 +137,7 @@ export const MainLayout = () => {
           </button>
           <button
             onClick={handleLogout}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all duration-200 ${collapsed ? 'justify-center' : ''}`}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-cyber-pink hover:text-white hover:bg-cyber-pink/10 border border-transparent hover:border-cyber-pink/20 font-orbitron transition-all duration-200 ${collapsed ? 'justify-center' : ''}`}
             title={collapsed ? 'Logout' : undefined}
           >
             <LogOut className="w-5 h-5 flex-shrink-0" />
@@ -160,15 +160,15 @@ export const MainLayout = () => {
           </button>
 
           {/* Search Bar */}
-          <div className="flex-1 max-w-md">
+          <div className="flex-1 max-w-md relative z-10">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-cyber-cyan glow-cyan" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search reports, incidents..."
-                className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-sm text-slate-200 placeholder-slate-500 outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                placeholder="CMD: search database..."
+                className="w-full bg-navy-950/60 border border-cyber-cyan/20 rounded-lg pl-10 pr-4 py-2 text-sm text-cyber-cyan placeholder-cyber-cyan/40 outline-none focus:border-cyber-cyan/50 focus:ring-2 focus:ring-cyber-cyan/10 font-tech transition-all"
               />
             </div>
           </div>
@@ -186,9 +186,9 @@ export const MainLayout = () => {
             </button>
 
             {/* System Status */}
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
-              <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-              <span className="text-xs font-medium text-emerald-400">Secure</span>
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-cyber-green/10 border border-cyber-green/30 font-tech glow-green relative z-10">
+              <div className="w-1.5 h-1.5 bg-cyber-green rounded-full animate-pulse glow-green" />
+              <span className="text-xs font-bold uppercase tracking-wider text-cyber-green">SYS_SECURE</span>
             </div>
 
             {/* Profile Dropdown */}
@@ -215,23 +215,23 @@ export const MainLayout = () => {
                     className="absolute right-0 top-full mt-2 w-56 glass-strong rounded-xl border border-white/10 shadow-2xl overflow-hidden z-50"
                   >
                     <div className="p-3 border-b border-white/5">
-                      <p className="text-sm font-semibold text-white">{userName}</p>
-                      <p className="text-xs text-slate-400 truncate">{user.email || 'user@crimewatch.gov'}</p>
+                      <p className="text-sm font-semibold text-white font-orbitron">{userName}</p>
+                      <p className="text-xs text-slate-450 font-tech truncate">{user.email || 'user@crimewatch.gov'}</p>
                     </div>
                     <div className="p-1.5">
                       <button
                         onClick={() => { navigate('/profile'); setProfileOpen(false); }}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm font-tech text-cyber-cyan hover:text-white hover:bg-cyber-cyan/15 rounded-lg transition-colors"
                       >
-                        <User className="w-4 h-4" />
-                        Profile
+                        <User className="w-4 h-4 text-cyber-cyan" />
+                        PROFILE_INIT
                       </button>
                       <button
                         onClick={handleLogout}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors"
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm font-tech text-cyber-pink hover:text-white hover:bg-cyber-pink/15 rounded-lg transition-colors"
                       >
-                        <LogOut className="w-4 h-4" />
-                        Logout
+                        <LogOut className="w-4 h-4 text-cyber-pink" />
+                        LOGOUT_TERMINATE
                       </button>
                     </div>
                   </motion.div>
@@ -242,7 +242,7 @@ export const MainLayout = () => {
         </header>
 
         {/* Content Body */}
-        <main className="flex-1 overflow-y-auto p-4 lg:p-6">
+        <main className="flex-1 overflow-y-auto p-4 lg:p-6 relative z-10 bg-cyber-void/45">
           <Outlet />
         </main>
       </div>

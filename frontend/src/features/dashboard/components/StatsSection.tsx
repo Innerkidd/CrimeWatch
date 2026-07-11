@@ -37,8 +37,11 @@ const stats = [
     label: 'Reports Submitted',
     value: 47,
     suffix: '',
-    color: 'from-blue-500 to-blue-600',
-    trend: '+3 this week',
+    glowClass: 'glow-cyan',
+    textClass: 'text-cyber-cyan',
+    borderClass: 'border-cyber-cyan/20 hover:border-cyber-cyan/45 hover:shadow-[0_0_12px_rgba(0,212,255,0.12)]',
+    iconBg: 'bg-cyber-cyan/10 border border-cyber-cyan/20',
+    trend: 'SYNCED_NODE_COUNT',
     trendUp: true,
   },
   {
@@ -46,8 +49,11 @@ const stats = [
     label: 'Nearby Active Incidents',
     value: 12,
     suffix: '',
-    color: 'from-red-500 to-orange-500',
-    trend: '2 in your area',
+    glowClass: 'glow-pink',
+    textClass: 'text-cyber-pink',
+    borderClass: 'border-cyber-pink/20 hover:border-cyber-pink/45 hover:shadow-[0_0_12px_rgba(255,0,119,0.12)]',
+    iconBg: 'bg-cyber-pink/10 border border-cyber-pink/20',
+    trend: 'WARNINGS_IN_SECTOR',
     trendUp: false,
   },
   {
@@ -55,8 +61,11 @@ const stats = [
     label: 'Cases Resolved',
     value: 38,
     suffix: '',
-    color: 'from-emerald-500 to-green-500',
-    trend: '80.8% rate',
+    glowClass: 'glow-green',
+    textClass: 'text-cyber-green',
+    borderClass: 'border-cyber-green/20 hover:border-cyber-green/45 hover:shadow-[0_0_12px_rgba(0,255,136,0.12)]',
+    iconBg: 'bg-cyber-green/10 border border-cyber-green/20',
+    trend: 'SUCCESS_RATE_80%',
     trendUp: true,
   },
   {
@@ -64,8 +73,11 @@ const stats = [
     label: 'Safety Score',
     value: 85,
     suffix: '%',
-    color: 'from-violet-500 to-purple-500',
-    trend: 'Above average',
+    glowClass: 'glow-yellow',
+    textClass: 'text-cyber-yellow',
+    borderClass: 'border-cyber-yellow/20 hover:border-cyber-yellow/45 hover:shadow-[0_0_12px_rgba(255,179,0,0.12)]',
+    iconBg: 'bg-cyber-yellow/10 border border-cyber-yellow/20',
+    trend: 'ABOVE_SECTOR_AVG',
     trendUp: true,
   },
 ];
@@ -79,24 +91,28 @@ export const StatsSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: i * 0.1, duration: 0.4 }}
-          className="glass rounded-2xl p-5 group hover:bg-white/[0.06] transition-all duration-300"
+          className={`hud-panel p-5 relative transition-all duration-300 border ${stat.borderClass}`}
         >
-          <div className="flex items-start justify-between mb-3">
-            <div className={`inline-flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br ${stat.color} shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-              <stat.icon className="w-5 h-5 text-white" />
+          {/* HUD Brackets Corners */}
+          <div className="hud-corner-tr" />
+          <div className="hud-corner-bl" />
+
+          <div className="flex items-start justify-between mb-3 relative z-10 font-tech">
+            <div className={`inline-flex items-center justify-center w-10 h-10 rounded-lg ${stat.iconBg} group-hover:scale-105 transition-transform duration-300`}>
+              <stat.icon className={`w-5 h-5 ${stat.textClass} ${stat.glowClass}`} />
             </div>
-            <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+            <span className={`text-[9px] font-bold px-2 py-0.5 rounded-none border uppercase tracking-wider ${
               stat.trendUp
-                ? 'text-emerald-400 bg-emerald-500/10'
-                : 'text-amber-400 bg-amber-500/10'
+                ? 'text-cyber-green border-cyber-green/20 bg-cyber-green/10 glow-green'
+                : 'text-cyber-pink border-cyber-pink/20 bg-cyber-pink/10 glow-pink'
             }`}>
               {stat.trend}
             </span>
           </div>
-          <div className="text-2xl font-extrabold text-white mb-0.5">
+          <div className="text-2xl font-black text-white font-orbitron mb-0.5 tracking-tight relative z-10">
             <AnimatedCounter value={stat.value} suffix={stat.suffix} />
           </div>
-          <div className="text-xs font-medium text-slate-400">{stat.label}</div>
+          <div className="text-[10px] font-bold text-slate-400 font-tech uppercase tracking-widest relative z-10">{stat.label}</div>
         </motion.div>
       ))}
     </div>

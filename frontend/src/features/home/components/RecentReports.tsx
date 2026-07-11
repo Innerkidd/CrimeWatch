@@ -11,28 +11,28 @@ interface CrimeReport {
 
 const reports: CrimeReport[] = [
   {
-    id: '1',
+    id: 'INC-9912',
     type: 'Armed Robbery',
     location: '142 Main Street, Downtown',
     time: '2 hours ago',
     status: 'investigating',
   },
   {
-    id: '2',
+    id: 'INC-8831',
     type: 'Vehicle Theft',
     location: '78 Oak Avenue, Midtown',
     time: '4 hours ago',
     status: 'verified',
   },
   {
-    id: '3',
+    id: 'INC-7729',
     type: 'Assault',
     location: '320 Pine Road, Eastside',
     time: '6 hours ago',
     status: 'pending',
   },
   {
-    id: '4',
+    id: 'INC-6520',
     type: 'Burglary',
     location: '15 Cedar Lane, Westend',
     time: '8 hours ago',
@@ -41,10 +41,10 @@ const reports: CrimeReport[] = [
 ];
 
 const statusStyles: Record<string, string> = {
-  verified: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20',
-  pending: 'bg-amber-500/15 text-amber-400 border-amber-500/20',
-  investigating: 'bg-blue-500/15 text-blue-400 border-blue-500/20',
-  resolved: 'bg-slate-500/15 text-slate-400 border-slate-500/20',
+  verified: 'bg-cyber-green/10 text-cyber-green border-cyber-green/30 glow-green',
+  pending: 'bg-cyber-yellow/10 text-cyber-yellow border-cyber-yellow/30 glow-yellow',
+  investigating: 'bg-cyber-cyan/10 text-cyber-cyan border-cyber-cyan/30 glow-cyan',
+  resolved: 'bg-navy-900 text-slate-500 border-slate-800',
 };
 
 export const RecentReports = () => {
@@ -59,11 +59,11 @@ export const RecentReports = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">
-            Recent Crime <span className="gradient-text">Reports</span>
+          <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-wider text-white mb-3 font-orbitron">
+            RECENT <span className="gradient-text glow-cyan">INCIDENT LOGS</span>
           </h2>
-          <p className="text-slate-400 max-w-lg mx-auto">
-            Stay informed about recent incidents reported in your area.
+          <p className="text-slate-400 max-w-lg mx-auto font-tech uppercase text-xs tracking-wide">
+            // Active telemetry broadcast of reported grid activities.
           </p>
         </motion.div>
 
@@ -77,13 +77,20 @@ export const RecentReports = () => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
             >
-              <div className="glass rounded-2xl p-6 hover:bg-white/[0.06] transition-all duration-300 group">
+              <div className="hud-panel p-6 hover:border-cyber-cyan/35 hover:shadow-[0_0_15px_rgba(0,212,255,0.08)] transition-all duration-300 group">
+                {/* HUD Brackets Corners */}
+                <div className="hud-corner-tr" />
+                <div className="hud-corner-bl" />
+
                 <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">
-                    {report.type}
-                  </h3>
+                  <div>
+                    <span className="text-[10px] font-tech text-slate-500 block mb-0.5">// LOG_ID: {report.id}</span>
+                    <h3 className="text-base font-bold uppercase tracking-wider text-white font-orbitron group-hover:text-cyber-cyan group-hover:glow-cyan transition-colors">
+                      {report.type}
+                    </h3>
+                  </div>
                   <span
-                    className={`px-3 py-1 text-xs font-semibold rounded-full border capitalize ${
+                    className={`px-2.5 py-0.5 text-[10px] font-tech uppercase tracking-wide border rounded-none ${
                       statusStyles[report.status]
                     }`}
                   >
@@ -91,20 +98,20 @@ export const RecentReports = () => {
                   </span>
                 </div>
 
-                <div className="space-y-2 mb-5">
-                  <div className="flex items-center gap-2 text-sm text-slate-400">
-                    <MapPin className="w-4 h-4 text-slate-500" />
-                    {report.location}
+                <div className="space-y-1.5 mb-5 font-tech text-xs uppercase tracking-wide">
+                  <div className="flex items-center gap-2 text-slate-400">
+                    <MapPin className="w-4 h-4 text-cyber-cyan glow-cyan" />
+                    <span>LOC: {report.location}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-slate-400">
-                    <Clock className="w-4 h-4 text-slate-500" />
-                    {report.time}
+                  <div className="flex items-center gap-2 text-slate-400">
+                    <Clock className="w-4 h-4 text-cyber-cyan glow-cyan" />
+                    <span>TIME: {report.time}</span>
                   </div>
                 </div>
 
-                <button className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors group/btn">
+                <button className="inline-flex items-center gap-1.5 text-xs font-bold font-tech uppercase tracking-wide text-cyber-cyan hover:text-cyber-green transition-colors group/btn">
                   <Eye className="w-4 h-4" />
-                  View Details
+                  INIT_DATA_DECRYPT
                   <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                 </button>
               </div>
