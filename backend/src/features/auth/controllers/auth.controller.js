@@ -1,55 +1,40 @@
-// TODO: Implement auth controller logic
+const service = require('../services/auth.service');
 
-exports.register = async (req, res, next) => {
+async function ok(fn, req, res, next) {
   try {
-    // TODO: Implement user registration
-    throw new Error('Not implemented');
+    const data = await fn();
+    res.json({ success: true, data });
   } catch (error) {
     next(error);
   }
+}
+
+exports.register = async (req, res, next) => {
+  await ok(() => service.register(req.body), req, res, next);
 };
 
 exports.login = async (req, res, next) => {
-  try {
-    // TODO: Implement user login
-    throw new Error('Not implemented');
-  } catch (error) {
-    next(error);
-  }
+  await ok(() => service.login(req.body), req, res, next);
 };
 
 exports.logout = async (req, res, next) => {
-  try {
-    // TODO: Implement user logout
-    throw new Error('Not implemented');
-  } catch (error) {
-    next(error);
-  }
+  const userId = req.body.userId || req.user?.id;
+  await ok(() => service.logout(userId), req, res, next);
 };
 
 exports.refreshToken = async (req, res, next) => {
-  try {
-    // TODO: Implement token refresh
-    throw new Error('Not implemented');
-  } catch (error) {
-    next(error);
-  }
+  await ok(() => service.refreshToken(req.body.refreshToken), req, res, next);
 };
 
 exports.forgotPassword = async (req, res, next) => {
-  try {
-    // TODO: Implement forgot password
-    throw new Error('Not implemented');
-  } catch (error) {
-    next(error);
-  }
+  await ok(() => service.forgotPassword(req.body.email), req, res, next);
 };
 
 exports.resetPassword = async (req, res, next) => {
-  try {
-    // TODO: Implement reset password
-    throw new Error('Not implemented');
-  } catch (error) {
-    next(error);
-  }
+  await ok(() => service.resetPassword(req.body.token, req.body.password), req, res, next);
+};
+
+exports.getProfile = async (req, res, next) => {
+  const userId = req.user?.id || req.params.userId;
+  await ok(() => service.getProfile(userId), req, res, next);
 };
