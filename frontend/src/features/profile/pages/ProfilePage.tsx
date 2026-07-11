@@ -3,12 +3,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Settings } from 'lucide-react';
 import { ProfileOverview } from '../components/ProfileOverview';
 import { PersonalInfoForm } from '../components/PersonalInfoForm';
-import { SecuritySettings } from '../components/SecuritySettings';
+import { AddressInformation } from '../components/AddressInformation';
+import { ChangePassword } from '../components/ChangePassword';
+import { TwoFactorAuth } from '../components/TwoFactorAuth';
 import { NotificationPreferences } from '../components/NotificationPreferences';
 import { PrivacySettings } from '../components/PrivacySettings';
-import { AppearanceSettings } from '../components/AppearanceSettings';
 import { EmergencyContacts } from '../components/EmergencyContacts';
-import { ActivityInfo } from '../components/ActivityInfo';
 import { SaveBar } from '../components/SaveBar';
 import { ConfirmationModal } from '../components/ConfirmationModal';
 import { ToastContainer, type ToastItem } from '@/shared/components/ui/Toast';
@@ -16,14 +16,10 @@ import {
   mockUserProfile,
   mockNotificationPrefs,
   mockPrivacyPrefs,
-  mockAppearancePrefs,
   mockEmergencyContacts,
-  mockSessions,
-  mockLoginHistory,
   type UserProfile,
   type NotificationPrefs,
   type PrivacyPrefs,
-  type AppearancePrefs,
   type EmergencyContact,
 } from '../data/mockData';
 
@@ -31,7 +27,6 @@ export const ProfilePage = () => {
   const [user, setUser] = useState<UserProfile>(mockUserProfile);
   const [notifPrefs, setNotifPrefs] = useState<NotificationPrefs>(mockNotificationPrefs);
   const [privacyPrefs, setPrivacyPrefs] = useState<PrivacyPrefs>(mockPrivacyPrefs);
-  const [appearancePrefs, setAppearancePrefs] = useState<AppearancePrefs>(mockAppearancePrefs);
   const [contacts, setContacts] = useState<EmergencyContact[]>(mockEmergencyContacts);
   const [hasChanges, setHasChanges] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -64,7 +59,6 @@ export const ProfilePage = () => {
     setUser(mockUserProfile);
     setNotifPrefs(mockNotificationPrefs);
     setPrivacyPrefs(mockPrivacyPrefs);
-    setAppearancePrefs(mockAppearancePrefs);
     setContacts(mockEmergencyContacts);
     setHasChanges(false);
   };
@@ -81,10 +75,6 @@ export const ProfilePage = () => {
 
   const handleDownloadData = () => {
     addToast('success', 'Your data export is being prepared.');
-  };
-
-  const handleLogoutAll = () => {
-    addToast('success', 'Logged out from all other devices.');
   };
 
   const handlePasswordChange = (data: { current: string; newPass: string }) => {
@@ -125,7 +115,7 @@ export const ProfilePage = () => {
       <ProfileOverview user={user} onEditProfile={() => document.getElementById('personal-info')?.scrollIntoView({ behavior: 'smooth' })} />
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
         {/* Left Column */}
         <div className="space-y-6" id="personal-info">
           <PersonalInfoForm
@@ -136,17 +126,21 @@ export const ProfilePage = () => {
               addToast('success', 'Personal information updated.');
             }}
           />
-          <AppearanceSettings prefs={appearancePrefs} onChange={(p) => { setAppearancePrefs(p); markChanged(); }} />
+          <AddressInformation
+            user={user}
+            onSave={(data) => {
+              setUser((prev) => ({ ...prev, ...data }));
+              markChanged();
+              addToast('success', 'Address information updated.');
+            }}
+          />
           <EmergencyContacts contacts={contacts} onChange={(c) => { setContacts(c); markChanged(); }} />
         </div>
 
         {/* Right Column */}
         <div className="space-y-6">
-          <SecuritySettings
-            sessions={mockSessions}
-            onLogoutAll={handleLogoutAll}
-            onPasswordChange={handlePasswordChange}
-          />
+          <ChangePassword onPasswordChange={handlePasswordChange} />
+          <TwoFactorAuth />
           <NotificationPreferences prefs={notifPrefs} onChange={(p) => { setNotifPrefs(p); markChanged(); }} />
           <PrivacySettings
             prefs={privacyPrefs}
@@ -154,7 +148,6 @@ export const ProfilePage = () => {
             onDeleteAccount={() => setDeleteAccountModal(true)}
             onDownloadData={handleDownloadData}
           />
-          <ActivityInfo user={user} loginHistory={mockLoginHistory} />
         </div>
       </div>
 

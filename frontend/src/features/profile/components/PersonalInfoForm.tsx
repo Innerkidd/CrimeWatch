@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import { User, Mail, Phone, MapPin, Calendar, Save } from 'lucide-react';
+import { User, Mail, Phone, Calendar, Save } from 'lucide-react';
 import { type UserProfile } from '../data/mockData';
 
 interface PersonalInfoFormProps {
@@ -16,10 +16,6 @@ interface FormData {
   phone: string;
   dateOfBirth: string;
   gender: string;
-  address: string;
-  city: string;
-  state: string;
-  postalCode: string;
 }
 
 export const PersonalInfoForm = ({ user, onSave }: PersonalInfoFormProps) => {
@@ -38,10 +34,6 @@ export const PersonalInfoForm = ({ user, onSave }: PersonalInfoFormProps) => {
       phone: user.phone,
       dateOfBirth: user.dateOfBirth,
       gender: user.gender,
-      address: user.address,
-      city: user.city,
-      state: user.state,
-      postalCode: user.postalCode,
     },
   });
 
@@ -181,48 +173,6 @@ export const PersonalInfoForm = ({ user, onSave }: PersonalInfoFormProps) => {
               <option value="other" className="bg-slate-800">Other</option>
               <option value="prefer_not_to_say" className="bg-slate-800">Prefer not to say</option>
             </select>
-          </div>
-        </div>
-
-        {/* Address */}
-        <div>
-          <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
-          Address
-          </label>
-          <div className="relative">
-            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500" />
-            <input
-              {...register('address')}
-              disabled={!isEditing}
-              className={`${inputClass(false)} pl-9 ${!isEditing ? 'opacity-60 cursor-not-allowed' : ''}`}
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">City</label>
-            <input
-              {...register('city')}
-              disabled={!isEditing}
-              className={`${inputClass(false)} ${!isEditing ? 'opacity-60 cursor-not-allowed' : ''}`}
-            />
-          </div>
-          <div>
-            <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">State</label>
-            <input
-              {...register('state')}
-              disabled={!isEditing}
-              className={`${inputClass(false)} ${!isEditing ? 'opacity-60 cursor-not-allowed' : ''}`}
-            />
-          </div>
-          <div>
-            <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Postal Code</label>
-            <input
-              {...register('postalCode')}
-              disabled={!isEditing}
-              className={`${inputClass(false)} ${!isEditing ? 'opacity-60 cursor-not-allowed' : ''}`}
-            />
           </div>
         </div>
 

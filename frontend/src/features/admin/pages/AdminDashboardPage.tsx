@@ -17,6 +17,10 @@ import {
   Menu,
   X,
   Users,
+  Radio,
+  Download,
+  Plus,
+  Clock,
 } from 'lucide-react';
 
 // Hook
@@ -24,14 +28,15 @@ import { useAdminState } from '../hooks/useAdminState';
 
 // Components
 import { StatCards } from '../components/StatCards';
-import { IncidentMap } from '../components/IncidentMap';
+import { AdminLiveMap } from '../components/AdminLiveMap';
 import { ReportsTable } from '../components/ReportsTable';
 import { InvestigationManager } from '../components/InvestigationManager';
 import { OfficerManagement } from '../components/OfficerManagement';
 import { AnalyticsDashboard } from '../components/AnalyticsDashboard';
 import { EmergencyAlertCenter } from '../components/EmergencyAlertCenter';
 import { SystemActivityFeed } from '../components/SystemActivityFeed';
-import { QuickActionPanel } from '../components/QuickActionPanel';
+import { OfficerStatusPanel } from '../components/OfficerStatusPanel';
+import { SystemHealthPanel } from '../components/SystemHealthPanel';
 import { ToastContainer } from '../components/ToastContainer';
 import { CitizenManagement } from '../components/CitizenManagement';
 import { getStoredAuth } from '@/features/auth/services/mockAuth';
@@ -229,40 +234,169 @@ export const AdminDashboardPage: React.FC = () => {
               className="h-full"
             >
               {activeTab === 'dashboard' && (
-                <div className="space-y-8">
+                <div className="space-y-6">
                   {/* Stats Summary */}
                   <StatCards reports={state.reports} officers={state.officers} />
 
-                  {/* Actions Bar */}
-                  <QuickActionPanel
-                    onVerifyClick={() => setActiveTab('reports')}
-                    onAddOfficerClick={() => setActiveTab('officers')}
-                    onBroadcastClick={() => setActiveTab('alerts')}
-                    onOpenMapClick={() => setActiveTab('map')}
-                    onExportClick={() => alert('Exporting all crime records as CSV...')}
-                  />
+                  {/* SOC Layout: 70% Main / 30% Sidebar */}
+                  <div className="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-6">
+                    {/* ===== MAIN CONTENT (70%) ===== */}
+                    <div className="space-y-6">
+                      {/* Live Crime Map */}
+                      <div className="bg-cyber-void/80 border border-cyber-cyan/15 rounded-none p-4 relative hud-panel">
+                        <div className="hud-corner-tr" />
+                        <div className="hud-corner-bl" />
+                        <div className="flex items-center justify-between mb-4 relative z-10">
+                          <div>
+                            <h3 className="text-sm font-bold tracking-wider text-cyber-cyan glow-cyan uppercase font-orbitron">LIVE_CRIME_GRID</h3>
+                            <p className="text-slate-500 text-[10px] mt-0.5 uppercase tracking-wide">// Real-time incident geospatial overlay</p>
+                          </div>
+                          <button
+                            onClick={() => setActiveTab('map')}
+                            className="text-[10px] text-cyber-cyan hover:text-cyber-green font-bold uppercase tracking-wider cursor-pointer transition-colors"
+                          >
+                            Expand Map &rarr;
+                          </button>
+                        </div>
+                        <AdminLiveMap reports={state.reports} officers={state.officers} />
+                      </div>
 
-                  {/* Split Table & side details */}
-                  <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-                    <div className="xl:col-span-2 space-y-6">
-                      <ReportsTable
-                        reports={state.reports}
-                        officers={state.officers}
-                        onVerify={state.verifyReport}
-                        onReject={state.rejectReport}
-                        onAssign={state.assignOfficer}
-                      />
+                      {/* Crime Analytics Charts */}
+                      <div className="bg-cyber-void/80 border border-cyber-cyan/15 rounded-none p-5 relative hud-panel">
+                        <div className="hud-corner-tr" />
+                        <div className="hud-corner-bl" />
+                        <div className="flex items-center justify-between mb-4 relative z-10">
+                          <div>
+                            <h3 className="text-sm font-bold tracking-wider text-cyber-cyan glow-cyan uppercase font-orbitron">CRIME_ANALYTICS</h3>
+                            <p className="text-slate-500 text-[10px] mt-0.5 uppercase tracking-wide">// Statistical intelligence overview</p>
+                          </div>
+                          <button
+                            onClick={() => setActiveTab('analytics')}
+                            className="text-[10px] text-cyber-cyan hover:text-cyber-green font-bold uppercase tracking-wider cursor-pointer transition-colors"
+                          >
+                            Full Analytics &rarr;
+                          </button>
+                        </div>
+                        <div className="relative z-10">
+                          <AnalyticsDashboard reports={state.reports} />
+                        </div>
+                      </div>
+
+                      {/* Recent Activity Timeline */}
+                      <div className="bg-cyber-void/80 border border-cyber-cyan/15 rounded-none p-5 relative hud-panel">
+                        <div className="hud-corner-tr" />
+                        <div className="hud-corner-bl" />
+                        <div className="flex items-center justify-between mb-4 relative z-10">
+                          <div>
+                            <h3 className="text-sm font-bold tracking-wider text-cyber-cyan glow-cyan uppercase font-orbitron">RECENT_ACTIVITY</h3>
+                            <p className="text-slate-500 text-[10px] mt-0.5 uppercase tracking-wide">// Latest system events and dispatches</p>
+                          </div>
+                          <button
+                            onClick={() => setActiveTab('logs')}
+                            className="text-[10px] text-cyber-cyan hover:text-cyber-green font-bold uppercase tracking-wider cursor-pointer transition-colors"
+                          >
+                            Full Feed &rarr;
+                          </button>
+                        </div>
+                        <div className="relative z-10">
+                          <SystemActivityFeed logs={state.logs} />
+                        </div>
+                      </div>
+
+                      {/* Quick Action Buttons */}
+                      <div className="bg-cyber-void/80 border border-cyber-cyan/15 rounded-none p-5 relative hud-panel">
+                        <div className="hud-corner-tr" />
+                        <div className="hud-corner-bl" />
+                        <h3 className="text-sm font-bold tracking-wider text-cyber-cyan glow-cyan uppercase font-orbitron mb-4 relative z-10">DISPATCH_COMMANDS</h3>
+                        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 relative z-10">
+                          {[
+                            { label: 'Broadcast Alert', icon: Radio, onClick: () => setActiveTab('alerts'), color: 'text-cyber-pink border-cyber-pink/25 bg-cyber-pink/5 hover:border-cyber-pink/60 hover:bg-cyber-pink/15' },
+                            { label: 'Verify Reports', icon: Shield, onClick: () => setActiveTab('reports'), color: 'text-cyber-cyan border-cyber-cyan/25 bg-cyber-cyan/5 hover:border-cyber-cyan/60 hover:bg-cyber-cyan/15' },
+                            { label: 'Assign Officer', icon: Plus, onClick: () => setActiveTab('officers'), color: 'text-cyber-green border-cyber-green/25 bg-cyber-green/5 hover:border-cyber-green/60 hover:bg-cyber-green/15' },
+                            { label: 'Export Data', icon: Download, onClick: () => alert('Exporting all crime records as CSV...'), color: 'text-cyber-yellow border-cyber-yellow/25 bg-cyber-yellow/5 hover:border-cyber-yellow/60 hover:bg-cyber-yellow/15' },
+                            { label: 'Open Reports', icon: FileText, onClick: () => navigate('/admin/reports'), color: 'text-cyber-cyan border-cyber-cyan/25 bg-cyber-cyan/5 hover:border-cyber-cyan/60 hover:bg-cyber-cyan/15' },
+                          ].map((act, idx) => {
+                            const Icon = act.icon;
+                            return (
+                              <button
+                                key={idx}
+                                onClick={act.onClick}
+                                className={`border p-3 rounded-none flex flex-col items-center justify-center text-center gap-1.5 transition-all duration-250 font-bold uppercase text-[9px] h-20 cursor-pointer chamfer-button relative ${act.color}`}
+                              >
+                                <div className="hud-corner-tr" />
+                                <div className="hud-corner-bl" />
+                                <Icon className="w-4 h-4" />
+                                <span>{act.label}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="space-y-8">
-                      {/* Emergency alerts summary */}
-                      <div className="bg-cyber-void/80 border border-cyber-cyan/15 rounded-none relative">
+                    {/* ===== RIGHT SIDEBAR (30%) ===== */}
+                    <div className="space-y-6">
+                      {/* Active Alerts */}
+                      <div className="bg-cyber-void/80 border border-cyber-cyan/15 rounded-none relative hud-panel">
+                        <div className="hud-corner-tr" />
+                        <div className="hud-corner-bl" />
                         <EmergencyAlertCenter alerts={state.alerts} onBroadcast={state.broadcastAlert} />
                       </div>
 
-                      {/* Operations Audit feed summary */}
-                      <div className="bg-cyber-void/80 border border-cyber-cyan/15 rounded-none relative">
-                        <SystemActivityFeed logs={state.logs} />
+                      {/* Officer Status */}
+                      <div className="bg-cyber-void/80 border border-cyber-cyan/15 rounded-none p-5 relative hud-panel">
+                        <div className="hud-corner-tr" />
+                        <div className="hud-corner-bl" />
+                        <div className="relative z-10">
+                          <OfficerStatusPanel officers={state.officers} />
+                        </div>
+                      </div>
+
+                      {/* System Health */}
+                      <div className="bg-cyber-void/80 border border-cyber-cyan/15 rounded-none p-5 relative hud-panel">
+                        <div className="hud-corner-tr" />
+                        <div className="hud-corner-bl" />
+                        <div className="relative z-10">
+                          <SystemHealthPanel
+                            onlineOfficers={state.officers.filter((o) => o.status === 'Online').length}
+                            totalOfficers={state.officers.length}
+                            activeAlerts={state.alerts.length}
+                            totalReports={state.reports.length}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Quick Notifications */}
+                      <div className="bg-cyber-void/80 border border-cyber-cyan/15 rounded-none p-5 relative hud-panel">
+                        <div className="hud-corner-tr" />
+                        <div className="hud-corner-bl" />
+                        <div className="relative z-10">
+                          <h3 className="text-[10px] font-bold text-cyber-cyan glow-cyan tracking-widest font-tech uppercase mb-4">QUICK_NOTIFICATIONS</h3>
+                          <div className="space-y-2">
+                            {state.alerts.slice(0, 3).map((alert) => (
+                              <div
+                                key={alert.id}
+                                className={`p-2.5 border text-left transition-all ${
+                                  alert.severity === 'Critical' ? 'border-cyber-pink/30 bg-cyber-pink/5' :
+                                  alert.severity === 'High' ? 'border-cyber-yellow/30 bg-cyber-yellow/5' :
+                                  'border-cyber-cyan/20 bg-cyber-cyan/5'
+                                }`}
+                              >
+                                <div className="flex items-center gap-2 mb-1">
+                                  <span className={`text-[9px] font-bold ${
+                                    alert.severity === 'Critical' ? 'text-cyber-pink' :
+                                    alert.severity === 'High' ? 'text-cyber-yellow' :
+                                    'text-cyber-cyan'
+                                  }`}>
+                                    {alert.type}
+                                  </span>
+                                </div>
+                                <p className="text-[10px] text-slate-300 normal-case leading-normal">{alert.title}</p>
+                                <span className="text-[8px] text-slate-500 mt-1 block">{alert.time}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -270,13 +404,13 @@ export const AdminDashboardPage: React.FC = () => {
               )}
 
               {activeTab === 'map' && (
-                <IncidentMap
-                  reports={state.reports}
-                  officers={state.officers}
-                  onVerify={state.verifyReport}
-                  onReject={state.rejectReport}
-                  onAssign={state.assignOfficer}
-                />
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="text-xl font-bold text-slate-100 font-orbitron">LIVE_CRIME_GRID</h2>
+                    <p className="text-sm text-slate-400 mt-1">Real-time incident locations across all sectors</p>
+                  </div>
+                  <AdminLiveMap reports={state.reports} officers={state.officers} />
+                </div>
               )}
 
               {activeTab === 'reports' && (

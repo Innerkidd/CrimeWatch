@@ -23,6 +23,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import { getStoredAuth } from '@/features/auth/services/mockAuth';
+import { PoliceLiveMap } from '../components/PoliceLiveMap';
 
 interface StatCard {
   label: string;
@@ -499,21 +500,7 @@ export const PoliceDashboardPage: React.FC = () => {
                     <h2 className="text-xl font-bold text-slate-100">Live Crime Map</h2>
                     <p className="text-sm text-slate-400 mt-1">Real-time incident locations across your patrol area</p>
                   </div>
-                  <div className="bg-slate-950/40 backdrop-blur border border-slate-800 rounded-2xl p-8 shadow-xl">
-                    <div className="h-96 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-center">
-                      <div className="text-center">
-                        <Map className="w-12 h-12 text-amber-500/40 mx-auto mb-3" />
-                        <p className="text-sm text-slate-400 font-medium">Interactive Crime Map</p>
-                        <p className="text-xs text-slate-500 mt-1">Navigate to <span className="text-amber-400 font-bold">/police/map</span> for full map view</p>
-                        <button
-                          onClick={() => navigate('/police/map')}
-                          className="mt-4 text-xs font-bold text-amber-400 hover:text-amber-300 px-4 py-2 rounded-lg bg-amber-500/10 border border-amber-500/20 transition-colors"
-                        >
-                          Open Full Map
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                  <PoliceLiveMap onOpenFullMap={() => navigate('/police/map')} />
                 </div>
               )}
 
