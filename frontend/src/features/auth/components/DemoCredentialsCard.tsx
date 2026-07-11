@@ -8,9 +8,9 @@ interface DemoCredentialsCardProps {
 }
 
 const roleConfig = {
-  citizen: { label: 'Citizen', color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
-  police: { label: 'Police', color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
-  admin: { label: 'Admin', color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20' },
+  citizen: { label: 'Citizen', color: 'text-cyber-cyan glow-cyan', bg: 'bg-cyber-cyan/5', border: 'border-cyber-cyan/20' },
+  police: { label: 'Police', color: 'text-cyber-yellow glow-yellow', bg: 'bg-cyber-yellow/5', border: 'border-cyber-yellow/20' },
+  admin: { label: 'Admin', color: 'text-cyber-pink glow-pink', bg: 'bg-cyber-pink/5', border: 'border-cyber-pink/20' },
 };
 
 export const DemoCredentialsCard = ({ role }: DemoCredentialsCardProps) => {
@@ -30,23 +30,23 @@ export const DemoCredentialsCard = ({ role }: DemoCredentialsCardProps) => {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5 }}
-      className={`rounded-xl border ${config.border} ${config.bg} p-4`}
+      className={`rounded-none border ${config.border} ${config.bg} p-4 font-tech relative`}
     >
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <KeyRound className={`w-4 h-4 ${config.color}`} />
           <span className={`text-xs font-bold uppercase tracking-wider ${config.color}`}>
-            Demo {config.label} Credentials
+            // DEMO_{config.label.toUpperCase()}_CREDS
           </span>
         </div>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-semibold text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 transition-all"
+          className="flex items-center gap-1 px-2.5 py-1 rounded-none text-[9px] font-bold text-slate-400 hover:text-white bg-white/5 border border-white/10 hover:border-cyber-cyan/35 transition-all cursor-pointer uppercase tracking-wider"
         >
           {copied ? (
             <>
-              <Check className="w-3 h-3 text-emerald-400" />
-              Copied!
+              <Check className="w-3 h-3 text-cyber-green glow-green animate-pulse" />
+              Copied
             </>
           ) : (
             <>
@@ -57,13 +57,13 @@ export const DemoCredentialsCard = ({ role }: DemoCredentialsCardProps) => {
         </button>
       </div>
 
-      <div className="space-y-1.5 text-xs">
+      <div className="space-y-1.5 text-[11px] uppercase tracking-wide">
         <div className="flex items-center gap-2">
-          <span className="text-slate-500 w-16">Email:</span>
-          <span className="text-white font-mono">{creds.email}</span>
+          <span className="text-slate-400 w-16">EMAIL:</span>
+          <span className="text-white font-mono lowercase">{creds.email}</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-slate-500 w-16">Password:</span>
+          <span className="text-slate-400 w-16">PASSWORD:</span>
           <span className="text-white font-mono">{creds.password}</span>
         </div>
       </div>
