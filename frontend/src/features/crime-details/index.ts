@@ -1,0 +1,12 @@
+export * from './pages/CrimeDetailsPage';
+export * from './components/CrimeHeader';
+export * from './components/IncidentDetails';
+export * from './components/CrimeMap';
+export * from './components/EvidenceGallery';
+export * from './components/InvestigationTimeline';
+export * from './components/PoliceUpdates';
+export * from './components/SimilarIncidents';
+export * from './components/EmergencyContacts';
+export * from './components/ActionBar';
+export * from './data/mockData';
+export default {};

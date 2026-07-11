@@ -1,0 +1,10 @@
+export * from './pages/DashboardPage';
+export * from './components/WelcomeSection';
+export * from './components/QuickActions';
+export * from './components/StatsSection';
+export * from './components/NearbyAlerts';
+export * from './components/ActivityTimeline';
+export * from './components/SafetyTips';
+export * from './components/MiniMap';
+export * from './components/DashboardFooter';
+export default {};
