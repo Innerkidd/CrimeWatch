@@ -24,9 +24,7 @@ const navItems = [
   { icon: FileText, label: 'Report Crime', href: '/reports' },
   { icon: FileText, label: 'My Reports', href: '/my-reports' },
   { icon: Bell, label: 'Notifications', href: '/notifications' },
-  { icon: TrendingUp, label: 'Crime Trends', href: '/dashboard' },
   { icon: User, label: 'Profile', href: '/profile' },
-  { icon: Settings, label: 'Settings', href: '/profile' }, // point settings directly to profile options
 ];
 
 export const MainLayout = () => {
